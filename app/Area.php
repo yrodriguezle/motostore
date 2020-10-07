@@ -7,10 +7,10 @@ class Area extends Model
 {
 
   /**
-  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
   */
   public function country()
   {
-    return $this->belongsTo('App\Country');
+    return $this->belongsTo(Country::class);
   }
 }

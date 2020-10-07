@@ -1,6 +1,18 @@
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
+enum CustomerGender {
+  SIGNORA @enum(value: "female")
+  SIGNORE @enum(value: "male")
+  ALTRO @enum(value: "other")
+}
+
+type Phone {
+  id: ID!
+  phone: String!
+  customers: [User]!
+}
+
 type Country {
   id: ID!
   country: String!
@@ -35,6 +47,43 @@ type User {
   updated_at: DateTime!
 }
 
+type Customer {
+  id: ID!
+  gender: CustomerGender!
+  first_name: String!
+  last_name: String!
+  address: String
+  location: String
+  city: String
+  email: String
+  province: String
+  birth_date: Date
+  birth_place: String
+  birth_country: String
+  fiscal_code: String
+  mobile_phone: String
+  note: String
+  cap: String
+  license_number: String
+  license_release_date: Date
+  license_expiry_date: Date
+  identity_card: String
+  identity_card_release_from: String
+  identity_card_release_date: Date
+  identity_card_expiry_date: Date
+  latitude: Float
+  longitude: Float
+  send_sms: Boolean
+  send_newsletter: Boolean
+  send_birth_date: Boolean
+  send_review: Boolean
+  send_insurance: Boolean
+  send_email: Boolean
+  send_feedback: Boolean
+  send_feedback: Boolean
+  phones: [Phone]!
+}
+
 type Query {
   user(id: ID @eq): User @find
   users: [User!]! @paginate(defaultCount: 10)
@@ -45,4 +94,5 @@ type Query {
   ): [Area!]! @paginate(defaultCount: 10)
   country(id: ID @eq): Country @find
   countries: [Country!]! @paginate(defaultCount: 10)
+  customer(id: ID @eq): Customer @find
 }
