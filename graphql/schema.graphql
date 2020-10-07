@@ -1,0 +1,48 @@
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Country {
+  id: ID!
+  country: String!
+  flag: String
+  capital: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  areas: [Area!]!
+}
+
+type Area {
+  id: ID!
+  name: String!
+  cap: Int
+  region: String
+  province: String
+  prefix: Int
+  tax_code: String
+  surface: Float
+  residents_num: Int
+  created_at: DateTime!
+  updated_at: DateTime
+  country: Country!
+} 
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  avatar: String
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Query {
+  user(id: ID @eq): User @find
+  users: [User!]! @paginate(defaultCount: 10)
+  area(id: ID @eq): Area @find
+  areas: [Area!]! @paginate(defaultCount: 10)
+  searchAreas(
+    name: String @where(operator: "LIKE")
+  ): [Area!]! @paginate(defaultCount: 10)
+  country(id: ID @eq): Country @find
+  countries: [Country!]! @paginate(defaultCount: 10)
+}
