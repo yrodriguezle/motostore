@@ -57,7 +57,7 @@ type Estimate {
   vehicle: Vehicle!
   accessories: [Accessory!]!
   services: [Service!]!
-  paymentEstimates: [PaymentEstimate!]!
+  payments: [Payment!]!
 }
 
 type Customer {
@@ -98,14 +98,12 @@ type Customer {
   estimates: [Estimate!]!
 }
 
-type PaymentEstimate {
+type Payment {
   id: ID!
-  amount: Float
-  notes: String
+  payment: String
+  is_default: Boolean
   created_at: DateTime!
   updated_at: DateTime!
-  estimate: Estimate!
-  payment: Payment!
 }
 
 type Phone {
