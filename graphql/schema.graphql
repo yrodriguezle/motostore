@@ -7,20 +7,13 @@ enum CustomerGender {
   ALTRO @enum(value: "other")
 }
 
-type Phone {
+type Accessory {
   id: ID!
-  phone: String!
-  customers: [User]!
-}
-
-type Country {
-  id: ID!
-  country: String!
-  flag: String
-  capital: String
+  code: String
+  description: String
+  price: Float
   created_at: DateTime!
   updated_at: DateTime!
-  areas: [Area!]!
 }
 
 type Area {
@@ -36,15 +29,35 @@ type Area {
   created_at: DateTime!
   updated_at: DateTime
   country: Country!
-} 
+}
 
-type User {
+type Country {
   id: ID!
-  name: String!
-  email: String!
-  avatar: String
+  country: String!
+  flag: String
+  capital: String
   created_at: DateTime!
   updated_at: DateTime!
+  areas: [Area!]!
+}
+
+type Estimate {
+  id: ID!
+  date: Date
+  note: String
+  price_agreed: Float
+  accessories_agreed: Float
+  acquired_agreed: Float
+  total_purchase: Float
+  archived: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+  customer: Customer!
+  vehicle: Vehicle!
+  accessories: [Accessory!]!
+  services: [Service!]!
+  paymentEstimates: [PaymentEstimate!]!
 }
 
 type Customer {
@@ -81,7 +94,44 @@ type Customer {
   send_email: Boolean
   send_feedback: Boolean
   send_feedback: Boolean
-  phones: [Phone]!
+  phones: [Phone!]!
+  estimates: [Estimate!]!
+}
+
+type PaymentEstimate {
+  id: ID!
+  amount: Float
+  notes: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  estimate: Estimate!
+  payment: Payment!
+}
+
+type Phone {
+  id: ID!
+  phone: String!
+  customers: [User]!
+}
+
+type Service {
+  id: ID!
+  code: String
+  default_description: String
+  default_price: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+  estimates: [Estimate!]!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  avatar: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  estimates: [Estimate!]!
 }
 
 type Query {
