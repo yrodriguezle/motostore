@@ -1,7 +1,6 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Estimate extends Model
@@ -22,10 +21,13 @@ class Estimate extends Model
     return $this->belongsTo(Customer::class);
   }
 
-  // public function vehicle()
-  // {
-  //   return $this->belongsTo('App\Vehicle');
-  // }
+  /**
+  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+  */
+  public function vehicle()
+  {
+    return $this->belongsTo(Vehicle::class);
+  }
 
   // public function estimate_acquired_vehicles()
   // {

@@ -13,8 +13,11 @@ class Service extends Model
     return $this->belongsToMany(Estimate::class, 'estimates_services');
   }
 
-  // public function contracts()
-  // {
-  //   return $this->belongsToMany('App\Contract', 'contracts_services');
-  // }
+  /**
+  * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+  */
+  public function contracts()
+  {
+    return $this->belongsToMany(Contract::class, 'contracts_services');
+  }
 }

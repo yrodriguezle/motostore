@@ -7,11 +7,41 @@ enum CustomerGender {
   ALTRO @enum(value: "other")
 }
 
+enum VehicleStatus {
+  NUOVO @enum(value: "new")
+  USATO @enum(value: "used")
+  NOLEGGIO @enum(value: "rented")
+}
+
 type Accessory {
   id: ID!
   code: String
   description: String
   price: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type AcquiredVehicle {
+  id: ID!
+  acquired_date: Date
+  registration_date: Date
+  acquired_type: String
+  acquired_from: String
+  certificato_di_passggio: Boolean
+  acquired_notes: String
+  notes_2: String
+  payed: Boolean
+  payed_date: Date
+  web: Boolean
+  web_date: Date
+  charge_document: String
+  reference_charge_document: String
+  stock_advance: Boolean
+  reference_stock_advance: String
+  acquired_conditions: String
+  acquired_price: Float
+  acquired_sale_price: Float
   created_at: DateTime!
   updated_at: DateTime!
 }
@@ -31,6 +61,59 @@ type Area {
   country: Country!
 }
 
+type Brand {
+  id: ID!
+  name: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicles: [Vehicle!]!
+}
+
+type Complete {
+  id: ID!
+  code: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User
+  contracts: [Contract!]!
+}
+
+type Contract {
+  id: ID!
+  contract_date: Date
+  general_cost: Float
+  promotion_value: Float
+  price_agreed: Float
+  accessories_agreed: Float
+  acquired_agreed: Float
+  total_purchase: Float
+  notes: String
+  internal_notes: String
+  office_notes: String
+  archived: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User!
+  customer: Customer
+  vehicle: Vehicle
+  accessories: [Accessory!]!
+  services: [Service!]!
+  payments: [Payment!]!
+  acquiredVehicles: [Vehicle!]!
+  financing: Financing
+  complete: Complete
+  documents: [ContractDocument!]!
+}
+
+type ContractDocument {
+  id: ID!
+  display_name: String!
+  file_name: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  contract: Contract!
+}
+
 type Country {
   id: ID!
   country: String!
@@ -39,6 +122,35 @@ type Country {
   created_at: DateTime!
   updated_at: DateTime!
   areas: [Area!]!
+}
+
+type Financing {
+  id: ID!
+  iban_banca: String
+  stato_civile: String
+  figli: Int
+  casa_di_proprieta: Boolean
+  residenza: String
+  costo_affitto: Float
+  da_quanto: String
+  precedente_se_5_anni: String
+  dipendente: Boolean
+  nome_azienda: String
+  inizio_attivita_assunzione: Date
+  telefono_azienda: String
+  approvato: Boolean
+  data_approvazione: Date
+  partner_nome: String
+  partner_luogo_nascita: String
+  partner_data_nascita: Date
+  partner_impiego: String
+  partner_data_assunzione: Date
+  partner_stipendio: Float
+  occupazione: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User
+  userApprovazione: User
 }
 
 type Estimate {
@@ -58,6 +170,14 @@ type Estimate {
   accessories: [Accessory!]!
   services: [Service!]!
   payments: [Payment!]!
+}
+
+type Image {
+  id: ID!
+  filename: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicle: Vehicle!
 }
 
 type Customer {
@@ -122,6 +242,15 @@ type Service {
   estimates: [Estimate!]!
 }
 
+type Stock {
+  id: ID!
+  status: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicles: [Vehicle!]!
+  user: User
+}
+
 type User {
   id: ID!
   name: String!
@@ -132,15 +261,118 @@ type User {
   estimates: [Estimate!]!
 }
 
+type VehicleProperties {
+  id: ID!
+  procura: Boolean
+  keys: Boolean
+  maintenance_booklet: Boolean
+  circulation_booklet: Boolean
+  warranty_blooklet: Boolean
+  warranty: String
+  owners: Int
+  front_tire: Int
+  back_tire: Int
+  weakened: Boolean
+  track_only: Boolean
+  abs_system: Boolean
+  equipment: Boolean
+  ownership_certificate: Boolean
+  bollo_copy: Boolean
+  main_key: Boolean
+  second_key: Boolean
+  master_key: Boolean
+  key_code: Boolean
+  tool_kit: Boolean
+  tagliando_blooklet: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicle: Vehicle!
+}
+
+type Vehicle {
+  id: ID!
+  from: String
+  acquired_date: Date
+  sale_date: Date
+  plate_date: Date
+  delivery_date: Date
+  status: VehicleStatus!
+  model: String
+  version: String
+  displacement: Int
+  year: Int
+  color: String
+  type: String
+  km: Int
+  plate: String
+  frame: String
+  sale_price: Float
+  package_price: Float
+  costs: Float
+  other_expenses: Float
+  list_price: Float
+  promotion: Float
+  vehicle_note: String
+  internal_note: String
+  web_description: String
+  revision_expiry: Date
+  bollo_expiry: Date
+  vehicle_conditions: String
+  vehicle_type: String
+  invoce: String
+  invoice_date: Date
+  invoice_payment_type: String
+  invoice_expiry_date: Date
+  invoice_release: Boolean
+  rented: Boolean
+  brand: Brand
+  properties: VehicleProperties
+  estimates: [Estimate!]!
+  acquired_vehicle: AcquiredVehicle
+  customer_in: Customer
+  customer_out: Customer
+  user: User
+  stock: [Stock!]!
+  images: [Image!]!
+}
+
 type Query {
   user(id: ID @eq): User @find
-  users: [User!]! @paginate(defaultCount: 10)
+  users: [User!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+  )
   area(id: ID @eq): Area @find
-  areas: [Area!]! @paginate(defaultCount: 10)
-  searchAreas(
-    name: String @where(operator: "LIKE")
-  ): [Area!]! @paginate(defaultCount: 10)
+  areas(
+    name: String,
+    province: String
+  ): [Area!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+    builder: "App\\GraphQL\\Queries\\AreaQuery@searchBy"
+  )
   country(id: ID @eq): Country @find
   countries: [Country!]! @paginate(defaultCount: 10)
   customer(id: ID @eq): Customer @find
+  vehicles(
+    search: String,
+    new: Boolean,
+    used: Boolean,
+    rented: Boolean,
+    noPayed: Boolean
+  ): [Vehicle!]! @paginate(
+      type: "connection"
+      defaultCount: 10
+      builder: "App\\GraphQL\\Queries\\VehicleQuery@getVehicles"
+    )
+  getActiveContracts: [Contract!]! @paginate(
+      type: "paginator"
+      defaultCount: 10
+      builder: "App\\GraphQL\\Queries\\ContractQuery@getActiveContracts"
+    )
+  contract(id: ID @eq): Contract @find
+  contracts: [Contract!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+  )
 }
