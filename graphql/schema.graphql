@@ -214,7 +214,7 @@ type Customer {
   send_email: Boolean
   send_feedback: Boolean
   send_feedback: Boolean
-  phones: [Phone!]!
+  phones: [Phone!]! @hasMany
   estimates: [Estimate!]!
 }
 
@@ -354,22 +354,23 @@ type Query {
   country(id: ID @eq): Country @find
   countries: [Country!]! @paginate(defaultCount: 10)
   customer(id: ID @eq): Customer @find
+  customers: [Customer!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+    builder: "App\\GraphQL\\Queries\\CustomerQuery@customers"
+  )
   vehicles(
     search: String,
     new: Boolean,
     used: Boolean,
     rented: Boolean,
     noPayed: Boolean
-  ): [Vehicle!]! @paginate(
-      type: "connection"
-      defaultCount: 10
-      builder: "App\\GraphQL\\Queries\\VehicleQuery@getVehicles"
-    )
+  ): [Vehicle!]! @paginate
   getActiveContracts: [Contract!]! @paginate(
-      type: "paginator"
-      defaultCount: 10
-      builder: "App\\GraphQL\\Queries\\ContractQuery@getActiveContracts"
-    )
+    type: "paginator"
+    defaultCount: 10
+    builder: "App\\GraphQL\\Queries\\ContractQuery@getActiveContracts"
+  )
   contract(id: ID @eq): Contract @find
   contracts: [Contract!]! @paginate(
     type: "connection"
