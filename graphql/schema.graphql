@@ -13,6 +13,12 @@ enum VehicleStatus {
   NOLEGGIO @enum(value: "rented")
 }
 
+type ContractAccessory {
+  arrived: Boolean
+  arrived_date: Date
+  user: User @belongsTo
+}
+
 type Accessory {
   id: ID!
   code: String
@@ -20,6 +26,7 @@ type Accessory {
   price: Float
   created_at: DateTime!
   updated_at: DateTime!
+  contractAccessory: ContractAccessory
 }
 
 type AcquiredVehicle {
@@ -58,7 +65,7 @@ type Area {
   residents_num: Int
   created_at: DateTime!
   updated_at: DateTime
-  country: Country!
+  country: Country! @belongsTo
 }
 
 type Brand {
@@ -66,7 +73,7 @@ type Brand {
   name: String
   created_at: DateTime!
   updated_at: DateTime!
-  vehicles: [Vehicle!]!
+  vehicles: [Vehicle!]! @hasMany
 }
 
 type Complete {
@@ -74,7 +81,7 @@ type Complete {
   code: String
   created_at: DateTime!
   updated_at: DateTime!
-  user: User
+  user: User! @belongsTo
   contracts: [Contract!]!
 }
 
@@ -93,10 +100,10 @@ type Contract {
   archived: Boolean
   created_at: DateTime!
   updated_at: DateTime!
-  user: User!
-  customer: Customer
-  vehicle: Vehicle
-  accessories: [Accessory!]!
+  user: User! @belongsTo
+  customer: Customer! @belongsTo
+  vehicle: Vehicle! @belongsTo
+  accessories: [Accessory!]! @belongsToMany
   services: [Service!]!
   payments: [Payment!]!
   acquiredVehicles: [Vehicle!]!
@@ -149,7 +156,7 @@ type Financing {
   occupazione: String
   created_at: DateTime!
   updated_at: DateTime!
-  user: User
+  user: User! @belongsTo
   userApprovazione: User
 }
 
@@ -164,7 +171,7 @@ type Estimate {
   archived: Boolean
   created_at: DateTime!
   updated_at: DateTime!
-  user: User!
+  user: User! @belongsTo
   customer: Customer!
   vehicle: Vehicle!
   accessories: [Accessory!]!
@@ -214,7 +221,7 @@ type Customer {
   send_email: Boolean
   send_feedback: Boolean
   send_feedback: Boolean
-  phones: [Phone!]! @hasMany
+  phones: [Phone!]! @belongsToMany(relation: "phones")
   estimates: [Estimate!]!
 }
 
@@ -329,11 +336,11 @@ type Vehicle {
   properties: VehicleProperties
   estimates: [Estimate!]!
   acquired_vehicle: AcquiredVehicle
-  customer_in: Customer
-  customer_out: Customer
-  user: User
-  stock: [Stock!]!
-  images: [Image!]!
+  customer_in: Customer @belongsTo
+  customer_out: Customer @belongsTo
+  user: User! @belongsTo
+  stock: [Stock!]! @belongsToMany
+  images: [Image!]! @hasMany
 }
 
 type Query {
@@ -357,7 +364,6 @@ type Query {
   customers: [Customer!]! @paginate(
     type: "connection"
     defaultCount: 10
-    builder: "App\\GraphQL\\Queries\\CustomerQuery@customers"
   )
   vehicles(
     search: String,
@@ -366,14 +372,13 @@ type Query {
     rented: Boolean,
     noPayed: Boolean
   ): [Vehicle!]! @paginate
-  getActiveContracts: [Contract!]! @paginate(
-    type: "paginator"
-    defaultCount: 10
-    builder: "App\\GraphQL\\Queries\\ContractQuery@getActiveContracts"
-  )
-  contract(id: ID @eq): Contract @find
-  contracts: [Contract!]! @paginate(
+  getActiveContracts(
+    search: String,
+    status: String
+  ): [Contract!]! @paginate(
     type: "connection"
     defaultCount: 10
+    scopes: ["activeOrdered", "search", "status"]
   )
+  contract(id: ID @eq): Contract @find
 }

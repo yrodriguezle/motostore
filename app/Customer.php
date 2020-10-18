@@ -2,13 +2,14 @@
 
 namespace App;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Customer extends Model
 {
   /**
   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
   */
-  public function phones()
+  public function phones(): BelongsToMany
   {
     return $this->belongsToMany(Phone::class, 'customers_phones');
   }

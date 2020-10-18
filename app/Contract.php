@@ -1,11 +1,53 @@
 <?php
 
 namespace App;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Contract extends Model
 {
   protected $table = 'contracts';
+
+  public function scopeActiveOrdered(Builder $query): Builder
+  {
+    return $query->whereNull('archived')->orderBy('contract_date', 'desc');
+  }
+
+  public function scopeSearch(Builder $query, $args): Builder
+  {
+    $search = isset($args['search']) ? $args['search'] : null;
+    if ($search !== null) {
+      $parts = explode(" ", trim(preg_replace('/\s+/', ' ', str_replace("\n", " ", $search))));
+      return $query->where(function($query) use ($parts) {
+        foreach ($parts as $part) {
+          $query
+            ->whereHas('customer', function (Builder $query) use ($part) {
+              $query->where(DB::raw("CONCAT(`first_name`, ' ', `last_name`)"), 'like', "%$part%");
+            })
+            ->orWhereHas('vehicle', function (Builder $query) use ($part) {
+              $query->where('plate', 'like', "%$part%");
+            });
+        }
+      });
+    }
+    return $query;
+  }
+
+  public function scopeStatus(Builder $query, $args): Builder
+  {
+    $status = isset($args['status']) ? $args['status'] : null;
+    if ($status !== null) {
+      return $query->where(function($query) use ($status) {
+        $query->whereHas('vehicle', function (Builder $query) use ($status) {
+          $query->where('status', $status);
+        });
+      });
+    }
+    return $query;
+  }
 
   /**
   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -34,9 +76,15 @@ class Contract extends Model
   /**
   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
   */
-  public function accessories()
+  public function accessories(): BelongsToMany
   {
-    return $this->belongsToMany(Accessory::class, 'contracts_accessories');
+    return $this->belongsToMany(Accessory::class, 'contracts_accessories')
+      ->using(ContractAccessory::class)
+      ->withPivot([
+        'user_id',
+        'arrived',
+        'arrived_date'
+      ]);
   }
 
   /**
