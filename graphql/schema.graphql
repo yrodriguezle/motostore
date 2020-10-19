@@ -343,6 +343,11 @@ type Vehicle {
   images: [Image!]! @hasMany
 }
 
+type BrandsList {
+  brand: String!
+  count: Int!
+}
+
 type Query {
   user(id: ID @eq): User @find
   users: [User!]! @paginate(
@@ -361,10 +366,12 @@ type Query {
   country(id: ID @eq): Country @find
   countries: [Country!]! @paginate(defaultCount: 10)
   customer(id: ID @eq): Customer @find
+
   customers: [Customer!]! @paginate(
     type: "connection"
     defaultCount: 10
   )
+  
   vehicles(
     search: String,
     new: Boolean,
@@ -372,7 +379,8 @@ type Query {
     rented: Boolean,
     noPayed: Boolean
   ): [Vehicle!]! @paginate
-  getActiveContracts(
+
+  activeContracts(
     search: String,
     status: String
   ): [Contract!]! @paginate(
@@ -381,4 +389,5 @@ type Query {
     scopes: ["activeOrdered", "search", "status"]
   )
   contract(id: ID @eq): Contract @find
+  vehicleBrandsInContract: [BrandsList!]! @field(resolver: "VehicleQuery@getVehicleBrandsInContract")
 }
