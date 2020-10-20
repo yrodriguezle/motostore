@@ -371,7 +371,7 @@ type Query {
     type: "connection"
     defaultCount: 10
   )
-  
+
   vehicles(
     search: String,
     new: Boolean,
@@ -390,4 +390,8 @@ type Query {
   )
   contract(id: ID @eq): Contract @find
   vehicleBrandsInContract: [BrandsList!]! @field(resolver: "VehicleQuery@getVehicleBrandsInContract")
+}
+
+type Mutation {
+  login(email: String!, password: String!): String @field(resolver: "AuthMutation")
 }
