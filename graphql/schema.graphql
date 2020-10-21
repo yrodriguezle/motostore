@@ -349,6 +349,7 @@ type BrandsList {
 }
 
 type Query {
+  currentUser: User @auth
   user(id: ID @eq): User @find
   users: [User!]! @paginate(
     type: "connection"
@@ -390,4 +391,8 @@ type Query {
   )
   contract(id: ID @eq): Contract @find
   vehicleBrandsInContract: [BrandsList!]! @field(resolver: "VehicleQuery@getVehicleBrandsInContract")
+}
+
+type Mutation {
+  login(email: String!, password: String!): String @field(resolver: "UserMutation@login")
 }
