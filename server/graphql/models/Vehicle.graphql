@@ -1,0 +1,166 @@
+enum VehicleStatus {
+  NUOVO @enum(value: "new")
+  USATO @enum(value: "used")
+  NOLEGGIO @enum(value: "rented")
+}
+
+input VehicleProperties {
+  procura: Boolean
+  keys: Boolean
+  maintenance_booklet: Boolean
+  circulation_booklet: Boolean
+  warranty_blooklet: Boolean
+  warranty: String
+  owners: Int
+  front_tire: Int
+  back_tire: Int
+  weakened: Boolean
+  track_only: Boolean
+  abs_system: Boolean
+  equipment: Boolean
+  ownership_certificate: Boolean
+  bollo_copy: Boolean
+  main_key: Boolean
+  second_key: Boolean
+  master_key: Boolean
+  key_code: Boolean
+  tool_kit: Boolean
+  tagliando_blooklet: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicle: Vehicle!
+}
+
+
+
+type VehicleProperties {
+  id: ID!
+  procura: Boolean
+  keys: Boolean
+  maintenance_booklet: Boolean
+  circulation_booklet: Boolean
+  warranty_blooklet: Boolean
+  warranty: String
+  owners: Int
+  front_tire: Int
+  back_tire: Int
+  weakened: Boolean
+  track_only: Boolean
+  abs_system: Boolean
+  equipment: Boolean
+  ownership_certificate: Boolean
+  bollo_copy: Boolean
+  main_key: Boolean
+  second_key: Boolean
+  master_key: Boolean
+  key_code: Boolean
+  tool_kit: Boolean
+  tagliando_blooklet: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicle: Vehicle!
+}
+
+input Vehicle {
+  from: String
+  acquired_date: Date
+  sale_date: Date
+  plate_date: Date
+  delivery_date: Date
+  status: VehicleStatus!
+  model: String
+  version: String
+  displacement: Int
+  year: Int
+  color: String
+  type: String
+  km: Int
+  plate: String
+  frame: String
+  sale_price: Float
+  package_price: Float
+  costs: Float
+  other_expenses: Float
+  list_price: Float
+  promotion: Float
+  vehicle_note: String
+  internal_note: String
+  web_description: String
+  revision_expiry: Date
+  bollo_expiry: Date
+  vehicle_conditions: String
+  vehicle_type: String
+  invoce: String
+  invoice_date: Date
+  invoice_payment_type: String
+  invoice_expiry_date: Date
+  invoice_release: Boolean
+  rented: Boolean
+  brand: Brand
+  properties: VehicleProperties
+  estimates: [Estimate!]!
+  acquired_vehicle: AcquiredVehicle
+  customer_in: Customer @belongsTo
+  customer_out: Customer @belongsTo
+  user: User! @belongsTo
+  stock: [Stock!]! @belongsToMany
+  images: [Image!]! @hasMany
+}
+
+type Vehicle {
+  id: ID!
+  from: String
+  acquired_date: Date
+  sale_date: Date
+  plate_date: Date
+  delivery_date: Date
+  status: VehicleStatus!
+  model: String
+  version: String
+  displacement: Int
+  year: Int
+  color: String
+  type: String
+  km: Int
+  plate: String
+  frame: String
+  sale_price: Float
+  package_price: Float
+  costs: Float
+  other_expenses: Float
+  list_price: Float
+  promotion: Float
+  vehicle_note: String
+  internal_note: String
+  web_description: String
+  revision_expiry: Date
+  bollo_expiry: Date
+  vehicle_conditions: String
+  vehicle_type: String
+  invoce: String
+  invoice_date: Date
+  invoice_payment_type: String
+  invoice_expiry_date: Date
+  invoice_release: Boolean
+  rented: Boolean
+  brand: Brand
+  properties: VehicleProperties
+  estimates: [Estimate!]!
+  acquired_vehicle: AcquiredVehicle
+  customer_in: Customer @belongsTo
+  customer_out: Customer @belongsTo
+  user: User! @belongsTo
+  stock: [Stock!]! @belongsToMany
+  images: [Image!]! @hasMany
+}
+
+extend type Query {
+  vehicles(
+    search: String,
+    new: Boolean,
+    used: Boolean,
+    rented: Boolean,
+    noPayed: Boolean
+  ): [Vehicle!]! @paginate
+  vehicleBrandsInContract: [BrandsList!]! @field(resolver: "VehicleQuery@getVehicleBrandsInContract")
+}

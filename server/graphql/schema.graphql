@@ -1,0 +1,223 @@
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+#import models/*.graphql
+
+type ContractAccessory {
+  arrived: Boolean
+  arrived_date: Date
+  user: User @belongsTo
+}
+
+type Accessory {
+  id: ID!
+  code: String
+  description: String
+  price: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+  contractAccessory: ContractAccessory
+}
+
+type AcquiredVehicle {
+  id: ID!
+  acquired_date: Date
+  registration_date: Date
+  acquired_type: String
+  acquired_from: String
+  certificato_di_passggio: Boolean
+  acquired_notes: String
+  notes_2: String
+  payed: Boolean
+  payed_date: Date
+  web: Boolean
+  web_date: Date
+  charge_document: String
+  reference_charge_document: String
+  stock_advance: Boolean
+  reference_stock_advance: String
+  acquired_conditions: String
+  acquired_price: Float
+  acquired_sale_price: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Area {
+  id: ID!
+  name: String!
+  cap: Int
+  region: String
+  province: String
+  prefix: Int
+  tax_code: String
+  surface: Float
+  residents_num: Int
+  created_at: DateTime!
+  updated_at: DateTime
+  country: Country! @belongsTo
+}
+
+type Brand {
+  id: ID!
+  name: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicles: [Vehicle!]! @hasMany
+}
+
+type Complete {
+  id: ID!
+  code: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User! @belongsTo
+  contracts: [Contract!]!
+}
+
+type ContractDocument {
+  id: ID!
+  display_name: String!
+  file_name: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  contract: Contract!
+}
+
+type Country {
+  id: ID!
+  country: String!
+  flag: String
+  capital: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  areas: [Area!]!
+}
+
+type Financing {
+  id: ID!
+  iban_banca: String
+  stato_civile: String
+  figli: Int
+  casa_di_proprieta: Boolean
+  residenza: String
+  costo_affitto: Float
+  da_quanto: String
+  precedente_se_5_anni: String
+  dipendente: Boolean
+  nome_azienda: String
+  inizio_attivita_assunzione: Date
+  telefono_azienda: String
+  approvato: Boolean
+  data_approvazione: Date
+  partner_nome: String
+  partner_luogo_nascita: String
+  partner_data_nascita: Date
+  partner_impiego: String
+  partner_data_assunzione: Date
+  partner_stipendio: Float
+  occupazione: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User! @belongsTo
+  userApprovazione: User
+}
+
+type Estimate {
+  id: ID!
+  date: Date
+  note: String
+  price_agreed: Float
+  accessories_agreed: Float
+  acquired_agreed: Float
+  total_purchase: Float
+  archived: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User! @belongsTo
+  customer: Customer!
+  vehicle: Vehicle!
+  accessories: [Accessory!]!
+  services: [Service!]!
+  payments: [Payment!]!
+}
+
+type Image {
+  id: ID!
+  filename: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicle: Vehicle!
+}
+
+type Payment {
+  id: ID!
+  payment: String
+  is_default: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+type Phone {
+  id: ID!
+  phone: String!
+  customers: [User]!
+}
+
+type Service {
+  id: ID!
+  code: String
+  default_description: String
+  default_price: Float
+  created_at: DateTime!
+  updated_at: DateTime!
+  estimates: [Estimate!]!
+}
+
+type Stock {
+  id: ID!
+  status: String!
+  created_at: DateTime!
+  updated_at: DateTime!
+  vehicles: [Vehicle!]!
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  avatar: String
+  created_at: DateTime!
+  updated_at: DateTime!
+  estimates: [Estimate!]!
+}
+
+type BrandsList {
+  brand: String!
+  count: Int!
+}
+
+type Query {
+  currentUser: User @auth
+  user(id: ID @eq): User @find
+  users: [User!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+  )
+  area(id: ID @eq): Area @find
+  areas(
+    name: String,
+    province: String
+  ): [Area!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+    builder: "App\\GraphQL\\Queries\\AreaQuery@searchBy"
+  )
+  country(id: ID @eq): Country @find
+  countries: [Country!]! @paginate(defaultCount: 10)
+}
+
+type Mutation {
+  login(email: String!, password: String!): String @field(resolver: "UserMutation@login")
+}

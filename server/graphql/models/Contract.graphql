@@ -1,0 +1,42 @@
+type Contract {
+  id: ID!
+  contract_date: Date
+  general_cost: Float
+  promotion_value: Float
+  price_agreed: Float
+  accessories_agreed: Float
+  acquired_agreed: Float
+  total_purchase: Float
+  notes: String
+  internal_notes: String
+  office_notes: String
+  archived: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+  user: User! @belongsTo
+  customer: Customer! @belongsTo
+  vehicle: Vehicle! @belongsTo
+  accessories: [Accessory!]! @belongsToMany
+  services: [Service!]!
+  payments: [Payment!]!
+  acquiredVehicles: [Vehicle!]!
+  financing: Financing
+  complete: Complete
+  documents: [ContractDocument!]!
+}
+
+extend type Query {
+  contract(id: ID @eq): Contract @find
+  activeContracts(
+    search: String,
+    status: String
+  ): [Contract!]! @paginate(
+    type: "connection"
+    defaultCount: 10
+    scopes: ["activeOrdered", "search", "status"]
+  )
+}
+
+# extend type Mutation {
+#   createOrUpdateContract(id: ID, input: CustomerInput! @spread): Customer @upsert
+# }
