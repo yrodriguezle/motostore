@@ -1,17 +1,33 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 
 import './App.css';
-import useGetUser from './graphql/user/useGetUser';
+import { isAuthenticated } from './common/auth';
+import LoginPage from './components/pages/LoginPage';
+import PrivateRoutes from './components/common/router/PrivateRoutes';
 
-const App = () => {
-  const { loading, error, data } = useGetUser(1);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-  return (
-    <div className="App">
-      {JSON.stringify(data)}
-    </div>
-  );
-};
+const App = () => (
+  <Router>
+    <Switch>
+      <Route path="/motostore">
+        {
+          isAuthenticated()
+            ? (
+              <PrivateRoutes />
+            ) : <Redirect to="/login" />
+        }
+      </Route>
+      <Route path="/login">
+        <LoginPage />
+      </Route>
+      <Redirect from="*" to="/motostore" />
+    </Switch>
+  </Router>
+);
 
 export default App;
