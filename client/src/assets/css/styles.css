@@ -1,0 +1,16 @@
+@import url('../fonts/oswald.css');
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-title {
+  font-family: 'Oswald', sans-serif !important;
+  text-transform: uppercase !important;
+  font-weight: 400 !important;
+  font-size: 3rem !important;
+}
+.ui.pointing.label, .ui[class*="pointing above"].label {
+  margin-top: unset;
+}

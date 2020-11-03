@@ -7,7 +7,8 @@ import {
 } from '@apollo/client';
 import 'semantic-ui-css/semantic.min.css';
 
-import './index.css';
+import './assets/css/main.min.css';
+import './assets/css/styles.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -17,11 +18,9 @@ const client = new ApolloClient({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
   document.getElementById('root'),
 );
 
