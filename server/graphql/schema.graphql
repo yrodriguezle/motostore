@@ -216,8 +216,6 @@ type Query {
   )
   country(id: ID @eq): Country @find
   countries: [Country!]! @paginate(defaultCount: 10)
-
-  routes: []
 }
 
 type Mutation {

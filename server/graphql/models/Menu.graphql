@@ -1,0 +1,10 @@
+type Menu {
+  id: ID
+  title: String
+  url: String
+  parent_id: ID
+}
+
+extend type Query @guard {
+  routes: [Menu!]! @field(resolver: "MenuQuery")
+}
