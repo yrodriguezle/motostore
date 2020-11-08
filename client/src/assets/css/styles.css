@@ -20,19 +20,19 @@
 .main-container {
   height: 100vh;
 }
-.item {
+.sidebar-menu-item {
   font-size: 0.9em !important;
   color: rgb(255, 255, 255, 0.6) !important;
 }
-.item i {
+.sidebar-menu-item i {
   float: right !important;
   margin-top: auto !important;
 }
-.item:hover {
+.sidebar-menu-item:hover {
   background: rgba(255,255,255,.08);
   color: white !important;
 }
-.item.active {
+.sidebar-menu-item.active {
   background: rgba(255,255,255,.08);
 }
 .sidebar-accordion-content {

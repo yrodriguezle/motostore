@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, {
   useCallback,
   useMemo,
@@ -77,7 +76,7 @@ const Layout = ({ children }) => {
                           active={activeIndex === index}
                           index={index}
                           onClick={handleClick}
-                          className="item"
+                          className="sidebar-menu-item"
                         >
                           <Icon name="dropdown" />
                           {item.title}
@@ -102,7 +101,7 @@ const Layout = ({ children }) => {
                                     <Menu.Item
                                       key={link.id}
                                       name={link.title}
-                                      onClick={() => console.log(link.title)}
+                                      // onClick={() => console.log(link.title)}
                                       className="sidebar-accordion-menu-item"
                                     />
                                   ))

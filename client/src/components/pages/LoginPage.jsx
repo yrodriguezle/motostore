@@ -1,9 +1,12 @@
 import React, {
   useCallback,
+  useEffect,
   useState,
 } from 'react';
 import { gql, useApolloClient } from '@apollo/client';
-import { useHistory, useLocation } from 'react-router-dom';
+import {
+  useHistory,
+} from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -19,7 +22,8 @@ import {
   setAuthToken,
 } from '../../common/auth';
 import { LOGIN } from '../../graphql/mutations';
-import { IS_LOGGED_IN } from '../../graphql/queries';
+import useIsLoggedIn from '../../graphql/user/useIsLoggedIn';
+import useSetLoggedIn from '../../graphql/user/useSetLoggedIn';
 
 const Schema = Yup.object().shape({
   email: Yup.string()
@@ -31,10 +35,16 @@ const Schema = Yup.object().shape({
 
 const LoginPage = () => {
   const history = useHistory();
-  const location = useLocation();
-  const { from } = location.state || { from: { pathname: '/motostore' } };
+  const isLoggedIn = useIsLoggedIn();
+  const hanldeLogged = useSetLoggedIn();
   const client = useApolloClient();
   const [showError, toggleShowError] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push('/motostore');
+    }
+  }, [isLoggedIn, history]);
 
   const handleSubmit = useCallback(
     async (values) => {
@@ -49,20 +59,18 @@ const LoginPage = () => {
           setAuthToken({
             token: data.login,
           });
-          client.writeQuery({
-            query: gql`${IS_LOGGED_IN}`,
-            data: {
-              isLoggedIn: true,
-            },
-          });
-          // history.push('/motostore');
-          history.replace(from);
+          hanldeLogged(true);
+          history.push('/motostore');
         }
       } catch (error) {
         toggleShowError(true);
       }
     },
-    [client, from, history],
+    [
+      client,
+      hanldeLogged,
+      history,
+    ],
   );
 
   return (

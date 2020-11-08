@@ -3,6 +3,7 @@ import React, {
   // lazy,
 } from 'react';
 import {
+  Redirect,
   Route,
   Switch,
   useRouteMatch,
@@ -22,7 +23,6 @@ import HomePage from '../../pages/HomePage';
 
 const PrivateRoutes = () => {
   const { path } = useRouteMatch();
-  console.log(path);
 
   return (
     <Layout>
@@ -51,7 +51,7 @@ const PrivateRoutes = () => {
           //   );
           // })
         }
-        {/* <Redirect from="*" to={path} /> */}
+        <Redirect from="*" to={path} />
       </Switch>
     </Layout>
   );
