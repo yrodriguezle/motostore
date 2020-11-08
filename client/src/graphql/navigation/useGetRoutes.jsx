@@ -1,18 +1,15 @@
 import { useQuery, gql } from '@apollo/client';
-import { USER } from '../queries';
+import { ROUTES } from '../queries';
 
-const useGetUser = (userId) => {
+const useGetRoutes = (currentUser) => {
   const {
     data,
     loading,
     error,
   } = useQuery(
-    gql`${USER}`,
+    gql`${ROUTES}`,
     {
-      variables: {
-        id: userId,
-      },
-      skip: !userId,
+      skip: !currentUser,
     },
   );
 
@@ -23,4 +20,4 @@ const useGetUser = (userId) => {
   };
 };
 
-export default useGetUser;
+export default useGetRoutes;

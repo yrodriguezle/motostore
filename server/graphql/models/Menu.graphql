@@ -2,6 +2,7 @@ type Menu {
   id: ID
   title: String
   url: String
+  order: Int
   parent_id: ID
 }
 

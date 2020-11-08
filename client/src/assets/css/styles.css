@@ -11,6 +11,52 @@
   font-weight: 400 !important;
   font-size: 3rem !important;
 }
-.ui.pointing.label, .ui[class*="pointing above"].label {
+/* .ui.pointing.label, .ui[class*="pointing above"].label {
   margin-top: unset;
+} */
+.sidebar {
+  background-color: #242323;
 }
+.main-container {
+  height: 100vh;
+}
+.item {
+  font-size: 0.9em !important;
+  color: rgb(255, 255, 255, 0.6) !important;
+}
+.item i {
+  float: right !important;
+  margin-top: auto !important;
+}
+.item:hover {
+  background: rgba(255,255,255,.08);
+  color: white !important;
+}
+.item.active {
+  background: rgba(255,255,255,.08);
+}
+.sidebar-accordion-content {
+  padding: unset !important;
+}
+.sidebar-accordion-menu {
+  width: auto !important;
+  border: 0px !important;
+  border-radius: 0px !important;
+  min-height: auto !important;
+  background-color: #242323 !important;
+}
+.sidebar-accordion-menu-item {
+  padding: .8em 1em!important;
+  font-size: 14px !important;
+}
+
+/* .ui.custom.sidebar {
+  width: 315px !important;
+  margin-left: -315px !important;
+}
+.ui.active.custom.sidebar {
+  margin-left: 0px !important;
+}
+.ui.active.right.custom.sidebar {
+  margin-left: -315px !important;
+} */

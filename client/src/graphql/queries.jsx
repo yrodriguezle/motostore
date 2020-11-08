@@ -1,3 +1,9 @@
+export const IS_LOGGED_IN = (`
+  query IsUserLoggedIn {
+    isLoggedIn @client
+  }`
+);
+
 export const BRANDS = (`
   query GetBrands {
     vehicleBrandsInContract {
@@ -7,9 +13,9 @@ export const BRANDS = (`
   }`
 );
 
-export const USER = (`
-  query GetUser($id: ID!) {
-    user(id: $id) {
+export const CURRENT_USER = (`
+  query GetCurrentUser {
+    currentUser {
       id
       name
       email
@@ -32,6 +38,18 @@ export const ACTIVE_CONTRACTS = (`
           id
         }
       }
+    }
+  }`
+);
+
+export const ROUTES = (`
+  query GetRoutes {
+    routes {
+      id
+      title
+      url
+      order
+      parent_id
     }
   }`
 );

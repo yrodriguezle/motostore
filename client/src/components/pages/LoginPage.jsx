@@ -1,9 +1,9 @@
 import React, {
   useCallback,
-  useEffect,
   useState,
 } from 'react';
-import { useHistory } from 'react-router-dom';
+import { gql, useApolloClient } from '@apollo/client';
+import { useHistory, useLocation } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -15,8 +15,11 @@ import {
  Segment,
 } from 'semantic-ui-react';
 
-import useLogin from '../../graphql/user/useLogin';
-import { setAuthToken } from '../../common/auth';
+import {
+  setAuthToken,
+} from '../../common/auth';
+import { LOGIN } from '../../graphql/mutations';
+import { IS_LOGGED_IN } from '../../graphql/queries';
 
 const Schema = Yup.object().shape({
   email: Yup.string()
@@ -28,40 +31,38 @@ const Schema = Yup.object().shape({
 
 const LoginPage = () => {
   const history = useHistory();
-  const {
-    login, data, loading,
-  } = useLogin();
+  const location = useLocation();
+  const { from } = location.state || { from: { pathname: '/motostore' } };
+  const client = useApolloClient();
   const [showError, toggleShowError] = useState(false);
 
-  const handleSaveTokenAndLogIn = useCallback(
-    (token) => {
-      setAuthToken({
-        token,
-      });
-      history.push('/');
-    },
-    [history],
-  );
-
-  useEffect(() => {
-    if (data) {
-      toggleShowError(false);
-      const { login: token } = data;
-      if (token) {
-        handleSaveTokenAndLogIn(token);
-      } else {
+  const handleSubmit = useCallback(
+    async (values) => {
+      try {
+        const { data } = await client.mutate({
+          mutation: gql`${LOGIN}`,
+          variables: {
+            ...values,
+          },
+        });
+        if (data?.login) {
+          setAuthToken({
+            token: data.login,
+          });
+          client.writeQuery({
+            query: gql`${IS_LOGGED_IN}`,
+            data: {
+              isLoggedIn: true,
+            },
+          });
+          // history.push('/motostore');
+          history.replace(from);
+        }
+      } catch (error) {
         toggleShowError(true);
       }
-    }
-  }, [data, handleSaveTokenAndLogIn]);
-
-  const handleSubmit = useCallback(
-    (values) => {
-      login({
-        variables: values,
-      });
     },
-    [login],
+    [client, from, history],
   );
 
   return (
@@ -104,13 +105,14 @@ const LoginPage = () => {
               errors,
               touched,
               isValid,
+              isSubmitting,
               handleChange,
               handleBlur,
               handleSubmit: formikOnSubmit,
             }) => (
               <Form
                 onSubmit={formikOnSubmit}
-                loading={loading}
+                loading={isSubmitting}
               >
                 <Form.Input
                   fluid
@@ -140,7 +142,7 @@ const LoginPage = () => {
                   primary
                   fluid
                   type="submit"
-                  disabled={!isValid || loading}
+                  disabled={!isValid || isSubmitting}
                 >
                   Accedi
                 </Button>
