@@ -1,151 +1,172 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Motostore.Models;
 
-using MOTOSTORE.Models;
-
-namespace MOTOSTORE.DataAccess
+namespace Motostore.DataAccess
 {
-    public partial class DataContext : DbContext
+    public class DataContext : DbContext
     {
-        protected readonly IConfiguration Configuration;
+        private readonly IConfiguration _configuration;
         public DataContext(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public virtual DbSet<Accessory> Accessories { get; set; }
-        public virtual DbSet<AcquiredType> AcquiredTypes { get; set; }
-        public virtual DbSet<AcquiredVehicle> AcquiredVehicles { get; set; }
-        public virtual DbSet<AcquiredsContract> AcquiredsContracts { get; set; }
-        public virtual DbSet<Area> Areas { get; set; }
-        public virtual DbSet<Brand> Brands { get; set; }
-        public virtual DbSet<CarType> CarTypes { get; set; }
-        public virtual DbSet<CarTypeModel> CarTypeModels { get; set; }
-        public virtual DbSet<Complete> Completes { get; set; }
-        public virtual DbSet<Contract> Contracts { get; set; }
-        public virtual DbSet<ContractComplete> ContractCompletes { get; set; }
-        public virtual DbSet<ContractDocument> ContractDocuments { get; set; }
-        public virtual DbSet<ContractsAccessory> ContractsAccessories { get; set; }
-        public virtual DbSet<ContractsService> ContractsServices { get; set; }
-        public virtual DbSet<Country> Countries { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<CustomersPhone> CustomersPhones { get; set; }
-        public virtual DbSet<DataRow> DataRows { get; set; }
-        public virtual DbSet<DataType> DataTypes { get; set; }
-        public virtual DbSet<ElencoNoleggi> ElencoNoleggis { get; set; }
-        public virtual DbSet<ElencoVeicoliNoleggio> ElencoVeicoliNoleggios { get; set; }
-        public virtual DbSet<Estimate> Estimates { get; set; }
-        public virtual DbSet<EstimateAcquiredVehicle> EstimateAcquiredVehicles { get; set; }
-        public virtual DbSet<EstimatesAccessory> EstimatesAccessories { get; set; }
-        public virtual DbSet<EstimatesService> EstimatesServices { get; set; }
-        public virtual DbSet<Financing> Financings { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<Menu> Menus { get; set; }
-        public virtual DbSet<MenuItem> MenuItems { get; set; }
-        public virtual DbSet<Migration> Migrations { get; set; }
-        public virtual DbSet<PasswordReset> PasswordResets { get; set; }
-        public virtual DbSet<Payment> Payments { get; set; }
-        public virtual DbSet<PaymentsContract> PaymentsContracts { get; set; }
-        public virtual DbSet<PaymentsEstimate> PaymentsEstimates { get; set; }
-        public virtual DbSet<Permission> Permissions { get; set; }
-        public virtual DbSet<PermissionRole> PermissionRoles { get; set; }
-        public virtual DbSet<Phone> Phones { get; set; }
-        public virtual DbSet<Province> Provinces { get; set; }
-        public virtual DbSet<Rental> Rentals { get; set; }
-        public virtual DbSet<RentalsAccessory> RentalsAccessories { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Role1> Roles1 { get; set; }
-        public virtual DbSet<Service> Services { get; set; }
-        public virtual DbSet<Setting> Settings { get; set; }
-        public virtual DbSet<Step> Steps { get; set; }
-        public virtual DbSet<StepsAccessory> StepsAccessories { get; set; }
-        public virtual DbSet<Stock> Stocks { get; set; }
-        public virtual DbSet<StockVehicle> StockVehicles { get; set; }
-        public virtual DbSet<Translation> Translations { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserRole> UserRoles { get; set; }
-        public virtual DbSet<Vehicle> Vehicles { get; set; }
-        public virtual DbSet<VehicleAccessory> VehicleAccessories { get; set; }
-        public virtual DbSet<VehicleProperty> VehicleProperties { get; set; }
+        public DataContext(DbContextOptions<DataContext> options, IConfiguration configuration) : base(options)
+        {
+            _configuration = configuration;
+        }
+
+        public virtual DbSet<Accessory> Accessories { get; set; } = null!;
+        public virtual DbSet<AcquiredType> AcquiredTypes { get; set; } = null!;
+        public virtual DbSet<AcquiredVehicle> AcquiredVehicles { get; set; } = null!;
+        public virtual DbSet<AcquiredsContract> AcquiredsContracts { get; set; } = null!;
+        public virtual DbSet<Area> Areas { get; set; } = null!;
+        public virtual DbSet<Brand> Brands { get; set; } = null!;
+        public virtual DbSet<CarType> CarTypes { get; set; } = null!;
+        public virtual DbSet<CarTypeModel> CarTypeModels { get; set; } = null!;
+        public virtual DbSet<Complete> Completes { get; set; } = null!;
+        public virtual DbSet<Contract> Contracts { get; set; } = null!;
+        public virtual DbSet<ContractComplete> ContractCompletes { get; set; } = null!;
+        public virtual DbSet<ContractDocument> ContractDocuments { get; set; } = null!;
+        public virtual DbSet<ContractsAccessory> ContractsAccessories { get; set; } = null!;
+        public virtual DbSet<ContractsService> ContractsServices { get; set; } = null!;
+        public virtual DbSet<Country> Countries { get; set; } = null!;
+        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<DataRow> DataRows { get; set; } = null!;
+        public virtual DbSet<DataType> DataTypes { get; set; } = null!;
+        public virtual DbSet<ElencoNoleggi> ElencoNoleggis { get; set; } = null!;
+        public virtual DbSet<ElencoVeicoliNoleggio> ElencoVeicoliNoleggios { get; set; } = null!;
+        public virtual DbSet<Estimate> Estimates { get; set; } = null!;
+        public virtual DbSet<EstimateAcquiredVehicle> EstimateAcquiredVehicles { get; set; } = null!;
+        public virtual DbSet<EstimatesAccessory> EstimatesAccessories { get; set; } = null!;
+        public virtual DbSet<EstimatesService> EstimatesServices { get; set; } = null!;
+        public virtual DbSet<Financing> Financings { get; set; } = null!;
+        public virtual DbSet<Image> Images { get; set; } = null!;
+        public virtual DbSet<Menu> Menus { get; set; } = null!;
+        public virtual DbSet<MenuItem> MenuItems { get; set; } = null!;
+        public virtual DbSet<Migration> Migrations { get; set; } = null!;
+        public virtual DbSet<PasswordReset> PasswordResets { get; set; } = null!;
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
+        public virtual DbSet<PaymentsContract> PaymentsContracts { get; set; } = null!;
+        public virtual DbSet<PaymentsEstimate> PaymentsEstimates { get; set; } = null!;
+        public virtual DbSet<Permission> Permissions { get; set; } = null!;
+        public virtual DbSet<Phone> Phones { get; set; } = null!;
+        public virtual DbSet<Province> Provinces { get; set; } = null!;
+        public virtual DbSet<Rental> Rentals { get; set; } = null!;
+        public virtual DbSet<RentalsAccessory> RentalsAccessories { get; set; } = null!;
+        public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Service> Services { get; set; } = null!;
+        public virtual DbSet<Setting> Settings { get; set; } = null!;
+        public virtual DbSet<Step> Steps { get; set; } = null!;
+        public virtual DbSet<StepsAccessory> StepsAccessories { get; set; } = null!;
+        public virtual DbSet<Stock> Stocks { get; set; } = null!;
+        public virtual DbSet<StockVehicle> StockVehicles { get; set; } = null!;
+        public virtual DbSet<Translation> Translations { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Vehicle> Vehicles { get; set; } = null!;
+        public virtual DbSet<VehicleAccessory> VehicleAccessories { get; set; } = null!;
+        public virtual DbSet<VehicleProperty> VehicleProperties { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL(Configuration.GetConnectionString("Motostore"));
+                string connectionString = _configuration.GetConnectionString("Default");
+                // ServerVersion.Parse("5.7.35-mysql")
+                optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.UseCollation("latin1_swedish_ci")
+                .HasCharSet("latin1");
+
             modelBuilder.Entity<Accessory>(entity =>
             {
                 entity.ToTable("accessories");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Code)
                     .HasMaxLength(191)
                     .HasColumnName("code");
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasColumnType("longtext")
-                    .HasColumnName("description");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Price)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("price");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<AcquiredType>(entity =>
             {
                 entity.ToTable("acquired_types");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Description)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<AcquiredVehicle>(entity =>
             {
                 entity.ToTable("acquired_vehicles");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.VehicleId, "acquired_vehicles_vehicle_id_fk_idx");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.AcquiredConditions)
                     .HasMaxLength(191)
                     .HasColumnName("acquired_conditions");
 
-                entity.Property(e => e.AcquiredDate)
-                    .HasColumnType("date")
-                    .HasColumnName("acquired_date");
+                entity.Property(e => e.AcquiredDate).HasColumnName("acquired_date");
 
                 entity.Property(e => e.AcquiredFrom)
                     .HasMaxLength(191)
                     .HasColumnName("acquired_from")
                     .HasDefaultValueSql("'Zanuso'");
 
-                entity.Property(e => e.AcquiredNotes)
-                    .HasColumnType("longtext")
-                    .HasColumnName("acquired_notes");
+                entity.Property(e => e.AcquiredNotes).HasColumnName("acquired_notes");
 
                 entity.Property(e => e.AcquiredPrice)
                     .HasColumnType("double(16,2)")
@@ -159,7 +180,9 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("acquired_type");
 
-                entity.Property(e => e.AcquiredTypeId).HasColumnName("acquired_type_id");
+                entity.Property(e => e.AcquiredTypeId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("acquired_type_id");
 
                 entity.Property(e => e.Archived)
                     .HasColumnName("archived")
@@ -171,15 +194,15 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("charge_document");
 
-                entity.Property(e => e.Notes2)
-                    .HasColumnType("longtext")
-                    .HasColumnName("notes_2");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.Notes2).HasColumnName("notes_2");
 
                 entity.Property(e => e.Payed).HasColumnName("payed");
 
-                entity.Property(e => e.PayedDate)
-                    .HasColumnType("date")
-                    .HasColumnName("payed_date");
+                entity.Property(e => e.PayedDate).HasColumnName("payed_date");
 
                 entity.Property(e => e.ReferenceChargeDocument)
                     .HasMaxLength(191)
@@ -189,16 +212,20 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("reference_stock_advance");
 
-                entity.Property(e => e.RegistrationDate)
-                    .HasColumnType("date")
-                    .HasColumnName("registration_date");
+                entity.Property(e => e.RegistrationDate).HasColumnName("registration_date");
 
                 entity.Property(e => e.StockAdvance).HasColumnName("stock_advance");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("user_id");
 
                 entity.Property(e => e.VehicleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("vehicle_id");
             });
 
@@ -208,16 +235,19 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("acquireds_contracts");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.ContractId, "acquireds_contracts_contract_id_fk");
 
                 entity.HasIndex(e => e.VehicleId, "acquireds_contracts_vehicle_id_fk");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
 
                 entity.Property(e => e.VehicleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("vehicle_id");
 
                 entity.HasOne(d => d.Contract)
@@ -235,84 +265,133 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("areas");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Cap)
                     .HasMaxLength(5)
                     .HasColumnName("cap");
 
-                entity.Property(e => e.CountryId).HasColumnName("country_id");
+                entity.Property(e => e.CountryId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("country_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
 
-                entity.Property(e => e.Prefix).HasColumnName("prefix");
+                entity.Property(e => e.Prefix)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("prefix");
 
                 entity.Property(e => e.Province)
-                    .IsRequired()
                     .HasMaxLength(2)
                     .HasColumnName("province");
 
                 entity.Property(e => e.Region)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("region");
 
-                entity.Property(e => e.ResidentsNum).HasColumnName("residents_num");
+                entity.Property(e => e.ResidentsNum)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("residents_num");
 
                 entity.Property(e => e.Surface)
                     .HasColumnType("double(8,2)")
                     .HasColumnName("surface");
 
                 entity.Property(e => e.TaxCode)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("tax_code");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<Brand>(entity =>
             {
                 entity.ToTable("brands");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<CarType>(entity =>
             {
                 entity.ToTable("car_types");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
+                    .ValueGeneratedNever()
                     .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.DeletedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("deleted_at");
 
                 entity.Property(e => e.Type)
                     .HasMaxLength(255)
                     .HasColumnName("type");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<CarTypeModel>(entity =>
             {
                 entity.ToTable("car_type_models");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Model)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("model");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<Complete>(entity =>
@@ -320,21 +399,31 @@ namespace MOTOSTORE.DataAccess
                 entity.ToTable("complete");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Code)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("code");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<Contract>(entity =>
             {
                 entity.ToTable("contracts");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.AccessoriesAgreed)
@@ -347,33 +436,31 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.Archived).HasColumnName("archived");
 
-                entity.Property(e => e.ContractDate)
-                    .HasColumnType("date")
-                    .HasColumnName("contract_date");
+                entity.Property(e => e.ContractDate).HasColumnName("contract_date");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.CustomerId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("customer_id");
 
-                entity.Property(e => e.DeletedNote)
-                    .HasColumnType("longtext")
-                    .HasColumnName("deleted_note");
+                entity.Property(e => e.DeletedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("deleted_at");
+
+                entity.Property(e => e.DeletedNote).HasColumnName("deleted_note");
 
                 entity.Property(e => e.GeneralCost)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("general_cost");
 
-                entity.Property(e => e.InternalNotes)
-                    .HasColumnType("longtext")
-                    .HasColumnName("internal_notes");
+                entity.Property(e => e.InternalNotes).HasColumnName("internal_notes");
 
-                entity.Property(e => e.Notes)
-                    .HasColumnType("longtext")
-                    .HasColumnName("notes");
+                entity.Property(e => e.Notes).HasColumnName("notes");
 
-                entity.Property(e => e.OfficeNotes)
-                    .HasColumnType("longtext")
-                    .HasColumnName("office_notes");
+                entity.Property(e => e.OfficeNotes).HasColumnName("office_notes");
 
                 entity.Property(e => e.PriceAgreed)
                     .HasColumnType("double(16,2)")
@@ -383,17 +470,23 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("promotion_value");
 
-                entity.Property(e => e.RegistrationDate)
-                    .HasColumnType("date")
-                    .HasColumnName("registration_date");
+                entity.Property(e => e.RegistrationDate).HasColumnName("registration_date");
 
                 entity.Property(e => e.TotalPurchase)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("total_purchase");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
-                entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
+                entity.Property(e => e.UserId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("user_id");
+
+                entity.Property(e => e.VehicleId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("vehicle_id");
             });
 
             modelBuilder.Entity<ContractComplete>(entity =>
@@ -403,19 +496,27 @@ namespace MOTOSTORE.DataAccess
                 entity.ToTable("contract_complete");
 
                 entity.Property(e => e.CompleteId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("complete_id");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
                     .HasDefaultValueSql("'0'");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id");
             });
 
@@ -423,28 +524,37 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("contract_documents");
 
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_bin");
+
                 entity.HasIndex(e => e.ContractId, "contract_id_idx");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.DisplayName)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("display_name");
 
                 entity.Property(e => e.FileName)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("file_name");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Contract)
@@ -459,25 +569,28 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("contracts_accessories");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.AccessoryId, "contracts_accessories_accessory_id_fk");
 
                 entity.HasIndex(e => e.ContractId, "contracts_accessories_contract_id_fk");
 
                 entity.Property(e => e.AccessoryId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("accessory_id");
 
                 entity.Property(e => e.Arrived).HasColumnName("arrived");
 
-                entity.Property(e => e.ArrivedDate)
-                    .HasColumnType("date")
-                    .HasColumnName("arrived_date");
+                entity.Property(e => e.ArrivedDate).HasColumnName("arrived_date");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UserId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Accessory)
                     .WithMany()
@@ -494,17 +607,24 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("contracts_services");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.ContractId, "contracts_services_contract_id_fk");
 
                 entity.HasIndex(e => e.ServiceId, "contracts_services_service_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
@@ -515,8 +635,12 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("price");
 
                 entity.Property(e => e.ServiceId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("service_id");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
                 entity.HasOne(d => d.Contract)
                     .WithMany(p => p.ContractsServices)
@@ -533,8 +657,11 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("countries");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Capital)
@@ -542,21 +669,31 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("capital");
 
                 entity.Property(e => e.Country1)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("country");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Flag)
                     .HasMaxLength(255)
                     .HasColumnName("flag");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("customers");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Address)
@@ -567,9 +704,7 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(45)
                     .HasColumnName("birth_country");
 
-                entity.Property(e => e.BirthDate)
-                    .HasColumnType("date")
-                    .HasColumnName("birth_date");
+                entity.Property(e => e.BirthDate).HasColumnName("birth_date");
 
                 entity.Property(e => e.BirthPlace)
                     .HasMaxLength(191)
@@ -595,6 +730,10 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("city");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Email)
                     .HasMaxLength(191)
                     .HasColumnName("email");
@@ -608,7 +747,6 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("fiscal_code");
 
                 entity.Property(e => e.Gender)
-                    .IsRequired()
                     .HasColumnType("enum('female','male','other')")
                     .HasColumnName("gender");
 
@@ -616,13 +754,9 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(45)
                     .HasColumnName("identity_card");
 
-                entity.Property(e => e.IdentityCardExpiryDate)
-                    .HasColumnType("date")
-                    .HasColumnName("identity_card_expiry_date");
+                entity.Property(e => e.IdentityCardExpiryDate).HasColumnName("identity_card_expiry_date");
 
-                entity.Property(e => e.IdentityCardReleaseDate)
-                    .HasColumnType("date")
-                    .HasColumnName("identity_card_release_date");
+                entity.Property(e => e.IdentityCardReleaseDate).HasColumnName("identity_card_release_date");
 
                 entity.Property(e => e.IdentityCardReleaseFrom)
                     .HasMaxLength(45)
@@ -636,17 +770,13 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(10,6)")
                     .HasColumnName("latitude");
 
-                entity.Property(e => e.LicenseExpiryDate)
-                    .HasColumnType("date")
-                    .HasColumnName("license_expiry_date");
+                entity.Property(e => e.LicenseExpiryDate).HasColumnName("license_expiry_date");
 
                 entity.Property(e => e.LicenseNumber)
                     .HasMaxLength(191)
                     .HasColumnName("license_number");
 
-                entity.Property(e => e.LicenseReleaseDate)
-                    .HasColumnType("date")
-                    .HasColumnName("license_release_date");
+                entity.Property(e => e.LicenseReleaseDate).HasColumnName("license_release_date");
 
                 entity.Property(e => e.LicenseReleaseFrom)
                     .HasMaxLength(255)
@@ -664,11 +794,11 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("mobile_phone");
 
-                entity.Property(e => e.Note)
-                    .HasColumnType("longtext")
-                    .HasColumnName("note");
+                entity.Property(e => e.Note).HasColumnName("note");
 
-                entity.Property(e => e.PrevId).HasColumnName("prev_id");
+                entity.Property(e => e.PrevId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("prev_id");
 
                 entity.Property(e => e.Province)
                     .HasMaxLength(191)
@@ -687,44 +817,42 @@ namespace MOTOSTORE.DataAccess
                 entity.Property(e => e.SendReview).HasColumnName("send_review");
 
                 entity.Property(e => e.SendSms).HasColumnName("send_sms");
-            });
 
-            modelBuilder.Entity<CustomersPhone>(entity =>
-            {
-                entity.HasKey(e => new { e.CustomerId, e.PhoneId })
-                    .HasName("PRIMARY");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
-                entity.ToTable("customers_phones");
+                entity.HasMany(d => d.Phones)
+                    .WithMany(p => p.Customers)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "CustomersPhone",
+                        l => l.HasOne<Phone>().WithMany().HasForeignKey("PhoneId").HasConstraintName("customers_phones_phone_id_fk"),
+                        r => r.HasOne<Customer>().WithMany().HasForeignKey("CustomerId").HasConstraintName("customers_phones_customer_id_fk"),
+                        j =>
+                        {
+                            j.HasKey("CustomerId", "PhoneId").HasName("PRIMARY").HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-                entity.HasIndex(e => e.PhoneId, "customers_phones_phone_id_fk");
+                            j.ToTable("customers_phones").HasCharSet("utf8mb4").UseCollation("utf8mb4_unicode_ci");
 
-                entity.Property(e => e.CustomerId)
-                    .HasColumnType("bigint unsigned")
-                    .HasColumnName("customer_id");
+                            j.HasIndex(new[] { "PhoneId" }, "customers_phones_phone_id_fk");
 
-                entity.Property(e => e.PhoneId)
-                    .HasColumnType("bigint unsigned")
-                    .HasColumnName("phone_id");
+                            j.IndexerProperty<ulong>("CustomerId").HasColumnType("bigint(20) unsigned").HasColumnName("customer_id");
 
-                entity.HasOne(d => d.Customer)
-                    .WithMany(p => p.CustomersPhones)
-                    .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("customers_phones_customer_id_fk");
-
-                entity.HasOne(d => d.Phone)
-                    .WithMany(p => p.CustomersPhones)
-                    .HasForeignKey(d => d.PhoneId)
-                    .HasConstraintName("customers_phones_phone_id_fk");
+                            j.IndexerProperty<ulong>("PhoneId").HasColumnType("bigint(20) unsigned").HasColumnName("phone_id");
+                        });
             });
 
             modelBuilder.Entity<DataRow>(entity =>
             {
                 entity.ToTable("data_rows");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.DataTypeId, "data_rows_data_type_id_foreign");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Add)
@@ -738,7 +866,7 @@ namespace MOTOSTORE.DataAccess
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.DataTypeId)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("data_type_id");
 
                 entity.Property(e => e.Delete)
@@ -746,10 +874,11 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("delete")
                     .HasDefaultValueSql("'1'");
 
-                entity.Property(e => e.Details).HasColumnName("details");
+                entity.Property(e => e.Details)
+                    .HasColumnType("text")
+                    .HasColumnName("details");
 
                 entity.Property(e => e.DisplayName)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("display_name");
 
@@ -759,11 +888,11 @@ namespace MOTOSTORE.DataAccess
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Field)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("field");
 
                 entity.Property(e => e.Order)
+                    .HasColumnType("int(11)")
                     .HasColumnName("order")
                     .HasDefaultValueSql("'1'");
 
@@ -775,7 +904,6 @@ namespace MOTOSTORE.DataAccess
                 entity.Property(e => e.Required).HasColumnName("required");
 
                 entity.Property(e => e.Type)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("type");
 
@@ -789,6 +917,9 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("data_types");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.Name, "data_types_name_unique")
                     .IsUnique();
 
@@ -796,26 +927,30 @@ namespace MOTOSTORE.DataAccess
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Controller)
                     .HasMaxLength(191)
                     .HasColumnName("controller");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Description)
                     .HasMaxLength(191)
                     .HasColumnName("description");
 
-                entity.Property(e => e.Details).HasColumnName("details");
+                entity.Property(e => e.Details)
+                    .HasColumnType("text")
+                    .HasColumnName("details");
 
                 entity.Property(e => e.DisplayNamePlural)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("display_name_plural");
 
                 entity.Property(e => e.DisplayNameSingular)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("display_name_singular");
 
@@ -830,7 +965,6 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("model_name");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
 
@@ -839,13 +973,16 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("policy_name");
 
                 entity.Property(e => e.ServerSide)
-                    .HasColumnType("tinyint")
+                    .HasColumnType("tinyint(4)")
                     .HasColumnName("server_side");
 
                 entity.Property(e => e.Slug)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("slug");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<ElencoNoleggi>(entity =>
@@ -854,65 +991,79 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("elenco_noleggi");
 
-                entity.Property(e => e.Accessori)
-                    .HasColumnType("longtext")
-                    .HasColumnName("accessori");
+                entity.Property(e => e.Accessori).HasColumnName("accessori");
 
-                entity.Property(e => e.CartaNumero).HasColumnName("carta_numero");
+                entity.Property(e => e.CartaNumero)
+                    .HasColumnType("text")
+                    .HasColumnName("carta_numero");
 
-                entity.Property(e => e.CartaScadenza).HasColumnName("carta_scadenza");
+                entity.Property(e => e.CartaScadenza)
+                    .HasColumnType("text")
+                    .HasColumnName("carta_scadenza");
 
-                entity.Property(e => e.Data)
-                    .HasColumnType("date")
-                    .HasColumnName("data");
+                entity.Property(e => e.Data).HasColumnName("data");
 
-                entity.Property(e => e.DataConsegna)
-                    .HasColumnType("date")
-                    .HasColumnName("data_consegna");
+                entity.Property(e => e.DataConsegna).HasColumnName("data_consegna");
 
-                entity.Property(e => e.DataRitiro)
-                    .HasColumnType("date")
-                    .HasColumnName("data_ritiro");
+                entity.Property(e => e.DataRitiro).HasColumnName("data_ritiro");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.IdClienteNoleggio).HasColumnName("id_cliente_noleggio");
+                entity.Property(e => e.IdClienteNoleggio)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id_cliente_noleggio");
 
-                entity.Property(e => e.IdVeicoloNoleggio).HasColumnName("id_veicolo_noleggio");
+                entity.Property(e => e.IdVeicoloNoleggio)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id_veicolo_noleggio");
 
                 entity.Property(e => e.ImportoCauzione)
-                    .HasColumnType("decimal(11,0)")
+                    .HasPrecision(11)
                     .HasColumnName("importo_cauzione");
 
-                entity.Property(e => e.ImportoCauzioneTxt).HasColumnName("importo_cauzione_txt");
+                entity.Property(e => e.ImportoCauzioneTxt)
+                    .HasColumnType("text")
+                    .HasColumnName("importo_cauzione_txt");
 
                 entity.Property(e => e.ImportoNoleggio)
-                    .HasColumnType("decimal(11,0)")
+                    .HasPrecision(11)
                     .HasColumnName("importo_noleggio");
 
-                entity.Property(e => e.ImportoNoleggioTxt).HasColumnName("importo_noleggio_txt");
+                entity.Property(e => e.ImportoNoleggioTxt)
+                    .HasColumnType("text")
+                    .HasColumnName("importo_noleggio_txt");
 
                 entity.Property(e => e.ImportoVersato)
-                    .HasColumnType("decimal(11,0)")
+                    .HasPrecision(11)
                     .HasColumnName("importo_versato");
 
-                entity.Property(e => e.ImportoVersatoTxt).HasColumnName("importo_versato_txt");
+                entity.Property(e => e.ImportoVersatoTxt)
+                    .HasColumnType("text")
+                    .HasColumnName("importo_versato_txt");
 
-                entity.Property(e => e.KmAttuali).HasColumnName("km_attuali");
+                entity.Property(e => e.KmAttuali)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("km_attuali");
 
-                entity.Property(e => e.MetodoCauzione).HasColumnName("metodo_cauzione");
+                entity.Property(e => e.MetodoCauzione)
+                    .HasColumnType("text")
+                    .HasColumnName("metodo_cauzione");
 
-                entity.Property(e => e.NoteNoleggio)
-                    .HasColumnType("longtext")
-                    .HasColumnName("note_noleggio");
+                entity.Property(e => e.NoteNoleggio).HasColumnName("note_noleggio");
 
-                entity.Property(e => e.OraConsegna).HasColumnName("ora_consegna");
+                entity.Property(e => e.OraConsegna)
+                    .HasColumnType("text")
+                    .HasColumnName("ora_consegna");
 
-                entity.Property(e => e.OraRitiro).HasColumnName("ora_ritiro");
+                entity.Property(e => e.OraRitiro)
+                    .HasColumnType("text")
+                    .HasColumnName("ora_ritiro");
 
-                entity.Property(e => e.Percorrenza).HasColumnName("percorrenza");
+                entity.Property(e => e.Percorrenza)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("percorrenza");
             });
 
             modelBuilder.Entity<ElencoVeicoliNoleggio>(entity =>
@@ -921,47 +1072,64 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("elenco_veicoli_noleggio");
 
-                entity.Property(e => e.Assicurazione).HasColumnName("assicurazione");
+                entity.Property(e => e.Assicurazione)
+                    .HasColumnType("text")
+                    .HasColumnName("assicurazione");
 
-                entity.Property(e => e.AssicurazioneScadenza)
-                    .HasColumnType("date")
-                    .HasColumnName("assicurazione_scadenza");
+                entity.Property(e => e.AssicurazioneScadenza).HasColumnName("assicurazione_scadenza");
 
-                entity.Property(e => e.Cilindrata).HasColumnName("cilindrata");
+                entity.Property(e => e.Cilindrata)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("cilindrata");
 
-                entity.Property(e => e.Colore).HasColumnName("colore");
+                entity.Property(e => e.Colore)
+                    .HasColumnType("text")
+                    .HasColumnName("colore");
 
-                entity.Property(e => e.DataImmatricolazione)
-                    .HasColumnType("date")
-                    .HasColumnName("data_immatricolazione");
+                entity.Property(e => e.DataImmatricolazione).HasColumnName("data_immatricolazione");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.Intestazione).HasColumnName("intestazione");
+                entity.Property(e => e.Intestazione)
+                    .HasColumnType("text")
+                    .HasColumnName("intestazione");
 
-                entity.Property(e => e.Marca).HasColumnName("marca");
+                entity.Property(e => e.Marca)
+                    .HasColumnType("text")
+                    .HasColumnName("marca");
 
-                entity.Property(e => e.Modello).HasColumnName("modello");
+                entity.Property(e => e.Modello)
+                    .HasColumnType("text")
+                    .HasColumnName("modello");
 
-                entity.Property(e => e.StatoVeicolo).HasColumnName("stato_veicolo");
+                entity.Property(e => e.StatoVeicolo)
+                    .HasColumnType("text")
+                    .HasColumnName("stato_veicolo");
 
-                entity.Property(e => e.Targa).HasColumnName("targa");
+                entity.Property(e => e.Targa)
+                    .HasColumnType("text")
+                    .HasColumnName("targa");
 
-                entity.Property(e => e.Telaio).HasColumnName("telaio");
+                entity.Property(e => e.Telaio)
+                    .HasColumnType("text")
+                    .HasColumnName("telaio");
             });
 
             modelBuilder.Entity<Estimate>(entity =>
             {
                 entity.ToTable("estimates");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.CustomerId, "customers_estimates_customer_id_fk");
 
                 entity.HasIndex(e => e.VehicleId, "vehicles_estimates_vehicle_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.AccessoriesAgreed)
@@ -974,19 +1142,21 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.Archived).HasColumnName("archived");
 
-                entity.Property(e => e.ContractId).HasColumnName("contract_id");
+                entity.Property(e => e.ContractId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("contract_id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.CustomerId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("customer_id");
 
-                entity.Property(e => e.Date)
-                    .HasColumnType("date")
-                    .HasColumnName("date");
+                entity.Property(e => e.Date).HasColumnName("date");
 
-                entity.Property(e => e.Note)
-                    .HasColumnType("longtext")
-                    .HasColumnName("note");
+                entity.Property(e => e.Note).HasColumnName("note");
 
                 entity.Property(e => e.PriceAgreed)
                     .HasColumnType("double(16,2)")
@@ -996,13 +1166,16 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("total_purchase");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.UserId)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("user_id");
 
                 entity.Property(e => e.VehicleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("vehicle_id");
 
                 entity.HasOne(d => d.Customer)
@@ -1020,49 +1193,56 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("estimate_acquired_vehicles");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.EstimateId, "estimate_acquired_vehicles_estimate_id_fk");
 
                 entity.HasIndex(e => e.BrandId, "vehicle_exchange_brand_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.BolloExpiry)
-                    .HasColumnType("date")
-                    .HasColumnName("bollo_expiry");
+                entity.Property(e => e.BolloExpiry).HasColumnName("bollo_expiry");
 
                 entity.Property(e => e.BrandId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("brand_id");
 
                 entity.Property(e => e.Color)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("color");
 
-                entity.Property(e => e.Displacement).HasColumnName("displacement");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.Displacement)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("displacement");
 
                 entity.Property(e => e.EstimateId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("estimate_id");
 
                 entity.Property(e => e.Frame)
                     .HasMaxLength(191)
                     .HasColumnName("frame");
 
-                entity.Property(e => e.Km).HasColumnName("km");
+                entity.Property(e => e.Km)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("km");
 
                 entity.Property(e => e.Model)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("model");
 
-                entity.Property(e => e.Note)
-                    .HasColumnType("longtext")
-                    .HasColumnName("note");
+                entity.Property(e => e.Note).HasColumnName("note");
 
-                entity.Property(e => e.Owners).HasColumnName("owners");
+                entity.Property(e => e.Owners)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("owners");
 
                 entity.Property(e => e.Plate)
                     .HasMaxLength(191)
@@ -1072,9 +1252,7 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("price");
 
-                entity.Property(e => e.RevisionExpiry)
-                    .HasColumnType("date")
-                    .HasColumnName("revision_expiry");
+                entity.Property(e => e.RevisionExpiry).HasColumnName("revision_expiry");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(191)
@@ -1084,13 +1262,21 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("type");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.VehicleType)
                     .HasMaxLength(191)
                     .HasColumnName("vehicle_type");
 
-                entity.Property(e => e.Warranty).HasColumnName("warranty");
+                entity.Property(e => e.Warranty)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("warranty");
 
-                entity.Property(e => e.Year).HasColumnName("year");
+                entity.Property(e => e.Year)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("year");
 
                 entity.HasOne(d => d.Brand)
                     .WithMany(p => p.EstimateAcquiredVehicles)
@@ -1109,16 +1295,19 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("estimates_accessories");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.AccessoryId, "estimates_accessories_accessory_id_fk");
 
                 entity.HasIndex(e => e.EstimateId, "estimates_accessories_estimate_id_fk");
 
                 entity.Property(e => e.AccessoryId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("accessory_id");
 
                 entity.Property(e => e.EstimateId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("estimate_id");
 
                 entity.HasOne(d => d.Accessory)
@@ -1136,22 +1325,27 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("estimates_services");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.EstimateId, "estimates_services_estimate_id_fk");
 
                 entity.HasIndex(e => e.ServiceId, "estimates_services_service_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
                     .HasColumnName("description");
 
                 entity.Property(e => e.EstimateId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("estimate_id");
 
                 entity.Property(e => e.Price)
@@ -1159,7 +1353,7 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("price");
 
                 entity.Property(e => e.ServiceId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("service_id");
 
                 entity.HasOne(d => d.Estimate)
@@ -1177,8 +1371,11 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("financing");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Approvato).HasColumnName("approvato");
@@ -1186,35 +1383,35 @@ namespace MOTOSTORE.DataAccess
                 entity.Property(e => e.CasaDiProprieta).HasColumnName("casa_di_proprieta");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
 
                 entity.Property(e => e.CostoAffitto)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("costo_affitto");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.DaQuanto)
                     .HasMaxLength(255)
                     .HasColumnName("da_quanto");
 
-                entity.Property(e => e.DataApprovazione)
-                    .HasColumnType("date")
-                    .HasColumnName("data_approvazione");
+                entity.Property(e => e.DataApprovazione).HasColumnName("data_approvazione");
 
                 entity.Property(e => e.Dipendente).HasColumnName("dipendente");
 
                 entity.Property(e => e.Figli)
+                    .HasColumnType("int(11)")
                     .HasColumnName("figli")
                     .HasDefaultValueSql("'0'");
 
                 entity.Property(e => e.IbanBanca)
-                    .IsRequired()
                     .HasMaxLength(255)
                     .HasColumnName("iban_banca");
 
-                entity.Property(e => e.InizioAttivitaAssunzione)
-                    .HasColumnType("date")
-                    .HasColumnName("inizio_attivita_assunzione");
+                entity.Property(e => e.InizioAttivitaAssunzione).HasColumnName("inizio_attivita_assunzione");
 
                 entity.Property(e => e.NomeAzienda)
                     .HasMaxLength(255)
@@ -1224,13 +1421,9 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(45)
                     .HasColumnName("occupazione");
 
-                entity.Property(e => e.PartnerDataAssunzione)
-                    .HasColumnType("date")
-                    .HasColumnName("partner_data_assunzione");
+                entity.Property(e => e.PartnerDataAssunzione).HasColumnName("partner_data_assunzione");
 
-                entity.Property(e => e.PartnerDataNascita)
-                    .HasColumnType("date")
-                    .HasColumnName("partner_data_nascita");
+                entity.Property(e => e.PartnerDataNascita).HasColumnName("partner_data_nascita");
 
                 entity.Property(e => e.PartnerImpiego)
                     .HasMaxLength(255)
@@ -1264,11 +1457,17 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(255)
                     .HasColumnName("telefono_azienda");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id");
 
-                entity.Property(e => e.UserIdApprovazione).HasColumnName("user_id_approvazione");
+                entity.Property(e => e.UserIdApprovazione)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("user_id_approvazione");
             });
 
             modelBuilder.Entity<Image>(entity =>
@@ -1278,15 +1477,23 @@ namespace MOTOSTORE.DataAccess
                 entity.HasIndex(e => e.VehicleId, "image_vehicle_fk_idx");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Filename)
                     .HasMaxLength(255)
                     .HasColumnName("filename");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.VehicleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("vehicle_id");
 
                 entity.HasOne(d => d.Vehicle)
@@ -1300,64 +1507,88 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("menus");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.Name, "menus_name_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<MenuItem>(entity =>
             {
                 entity.ToTable("menu_items");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.MenuId, "menu_items_menu_id_foreign");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Color)
                     .HasMaxLength(191)
                     .HasColumnName("color");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.IconClass)
                     .HasMaxLength(191)
                     .HasColumnName("icon_class");
 
                 entity.Property(e => e.MenuId)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("menu_id");
 
-                entity.Property(e => e.Order).HasColumnName("order");
+                entity.Property(e => e.Order)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("order");
 
-                entity.Property(e => e.Parameters).HasColumnName("parameters");
+                entity.Property(e => e.Parameters)
+                    .HasColumnType("text")
+                    .HasColumnName("parameters");
 
-                entity.Property(e => e.ParentId).HasColumnName("parent_id");
+                entity.Property(e => e.ParentId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("parent_id");
 
                 entity.Property(e => e.Route)
                     .HasMaxLength(191)
                     .HasColumnName("route");
 
                 entity.Property(e => e.Target)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("target")
                     .HasDefaultValueSql("'_self'");
 
                 entity.Property(e => e.Title)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("title");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.Url)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("url");
 
@@ -1372,14 +1603,18 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("migrations");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.Batch).HasColumnName("batch");
+                entity.Property(e => e.Batch)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("batch");
 
                 entity.Property(e => e.Migration1)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("migration");
             });
@@ -1390,15 +1625,20 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("password_resets");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.Email, "password_resets_email_index");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("email");
 
                 entity.Property(e => e.Token)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("token");
             });
@@ -1407,50 +1647,73 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("payments");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.IsDefault).HasColumnName("is_default");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.IsDefault)
+                    .HasColumnType("smallint(6)")
+                    .HasColumnName("is_default");
 
                 entity.Property(e => e.Payment1)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("payment");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<PaymentsContract>(entity =>
             {
                 entity.ToTable("payments_contracts");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.ContractId, "payments_contracts_contracts_id_fk");
 
                 entity.HasIndex(e => e.PaymentId, "payments_contracts_payment_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Amount)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("amount");
 
-                entity.Property(e => e.BuiltIn).HasColumnName("built_in");
+                entity.Property(e => e.BuiltIn)
+                    .HasColumnType("smallint(6)")
+                    .HasColumnName("built_in");
 
                 entity.Property(e => e.ContractId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("contract_id");
 
-                entity.Property(e => e.Notes)
-                    .HasColumnType("longtext")
-                    .HasColumnName("notes");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.Notes).HasColumnName("notes");
 
                 entity.Property(e => e.PaymentId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("payment_id");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Contract)
@@ -1468,29 +1731,38 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("payments_estimates");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.EstimateId, "payments_estimates_estimates_id_fk");
 
                 entity.HasIndex(e => e.PaymentId, "payments_estimates_payment_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Amount)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("amount");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.EstimateId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("estimate_id");
 
-                entity.Property(e => e.Notes)
-                    .HasColumnType("longtext")
-                    .HasColumnName("notes");
+                entity.Property(e => e.Notes).HasColumnName("notes");
 
                 entity.Property(e => e.PaymentId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("payment_id");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
                 entity.HasOne(d => d.Estimate)
                     .WithMany(p => p.PaymentsEstimates)
@@ -1507,62 +1779,65 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("permissions");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.Key, "permissions_key_index");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Key)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("key");
 
                 entity.Property(e => e.TableName)
                     .HasMaxLength(191)
                     .HasColumnName("table_name");
-            });
 
-            modelBuilder.Entity<PermissionRole>(entity =>
-            {
-                entity.HasKey(e => new { e.PermissionId, e.RoleId })
-                    .HasName("PRIMARY");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
-                entity.ToTable("permission_role");
+                entity.HasMany(d => d.Roles)
+                    .WithMany(p => p.Permissions)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "PermissionRole",
+                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").HasConstraintName("role_permission_id_fk"),
+                        r => r.HasOne<Permission>().WithMany().HasForeignKey("PermissionId").HasConstraintName("permission_role_id_fk"),
+                        j =>
+                        {
+                            j.HasKey("PermissionId", "RoleId").HasName("PRIMARY").HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
-                entity.HasIndex(e => e.PermissionId, "permission_role_permission_id_index");
+                            j.ToTable("permission_role").HasCharSet("utf8mb4").UseCollation("utf8mb4_unicode_ci");
 
-                entity.HasIndex(e => e.RoleId, "permission_role_role_id_index");
+                            j.HasIndex(new[] { "PermissionId" }, "permission_role_permission_id_index");
 
-                entity.Property(e => e.PermissionId)
-                    .HasColumnType("bigint unsigned")
-                    .HasColumnName("permission_id");
+                            j.HasIndex(new[] { "RoleId" }, "permission_role_role_id_index");
 
-                entity.Property(e => e.RoleId)
-                    .HasColumnType("bigint unsigned")
-                    .HasColumnName("role_id");
+                            j.IndexerProperty<ulong>("PermissionId").HasColumnType("bigint(20) unsigned").HasColumnName("permission_id");
 
-                entity.HasOne(d => d.Permission)
-                    .WithMany(p => p.PermissionRoles)
-                    .HasForeignKey(d => d.PermissionId)
-                    .HasConstraintName("permission_role_id_fk");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.PermissionRoles)
-                    .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("role_permission_id_fk");
+                            j.IndexerProperty<ulong>("RoleId").HasColumnType("bigint(20) unsigned").HasColumnName("role_id");
+                        });
             });
 
             modelBuilder.Entity<Phone>(entity =>
             {
                 entity.ToTable("phones");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Phone1)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("phone");
             });
@@ -1571,15 +1846,18 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("provinces");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
+
+                entity.Property(e => e.Id)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Code)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("code");
 
                 entity.Property(e => e.Province1)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("province");
 
@@ -1592,28 +1870,31 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("rentals");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.CauzioneRestituita)
-                    .HasColumnType("tinyint")
+                    .HasColumnType("tinyint(4)")
                     .HasColumnName("cauzione_restituita")
                     .HasDefaultValueSql("'0'");
 
-                entity.Property(e => e.CustomerId).HasColumnName("customer_id");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
-                entity.Property(e => e.DataConsegna)
-                    .HasColumnType("date")
-                    .HasColumnName("data_consegna");
+                entity.Property(e => e.CustomerId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("customer_id");
 
-                entity.Property(e => e.DataRegistrazione)
-                    .HasColumnType("date")
-                    .HasColumnName("data_registrazione");
+                entity.Property(e => e.DataConsegna).HasColumnName("data_consegna");
 
-                entity.Property(e => e.DataRitiro)
-                    .HasColumnType("date")
-                    .HasColumnName("data_ritiro");
+                entity.Property(e => e.DataRegistrazione).HasColumnName("data_registrazione");
+
+                entity.Property(e => e.DataRitiro).HasColumnName("data_ritiro");
 
                 entity.Property(e => e.ImportoAggiuntivo)
                     .HasColumnType("double(16,2)")
@@ -1631,17 +1912,19 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("importo_versato");
 
-                entity.Property(e => e.KmAttuali).HasColumnName("km_attuali");
+                entity.Property(e => e.KmAttuali)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("km_attuali");
 
-                entity.Property(e => e.KmFinali).HasColumnName("km_finali");
+                entity.Property(e => e.KmFinali)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("km_finali");
 
                 entity.Property(e => e.MetodoCauzione)
                     .HasMaxLength(191)
                     .HasColumnName("metodo_cauzione");
 
-                entity.Property(e => e.NoteNoleggio)
-                    .HasColumnType("longtext")
-                    .HasColumnName("note_noleggio");
+                entity.Property(e => e.NoteNoleggio).HasColumnName("note_noleggio");
 
                 entity.Property(e => e.NumeroCarta)
                     .HasMaxLength(191)
@@ -1655,25 +1938,34 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(45)
                     .HasColumnName("ora_ritiro");
 
-                entity.Property(e => e.Percorrenza).HasColumnName("percorrenza");
+                entity.Property(e => e.Percorrenza)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("percorrenza");
 
                 entity.Property(e => e.ScadenzaCarta)
                     .HasMaxLength(191)
                     .HasColumnName("scadenza_carta");
 
                 entity.Property(e => e.Status)
+                    .HasColumnType("smallint(6)")
                     .HasColumnName("status")
                     .HasDefaultValueSql("'0'");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id");
 
                 entity.Property(e => e.UserIdArchive)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id_archive");
 
-                entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
+                entity.Property(e => e.VehicleId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("vehicle_id");
             });
 
             modelBuilder.Entity<RentalsAccessory>(entity =>
@@ -1682,17 +1974,28 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("rentals_accessories");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.AccessoryId, "accessory_id_fk");
 
                 entity.HasIndex(e => e.RentalId, "rental_id_fk");
 
                 entity.Property(e => e.AccessoryId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("accessory_id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.RentalId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("rental_id");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
                 entity.HasOne(d => d.Accessory)
                     .WithMany()
@@ -1707,50 +2010,53 @@ namespace MOTOSTORE.DataAccess
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("role");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Role1>(entity =>
-            {
                 entity.ToTable("roles");
+
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
 
                 entity.HasIndex(e => e.Name, "roles_name_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.DisplayName)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("display_name");
 
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<Service>(entity =>
             {
                 entity.ToTable("services");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.Code)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("code");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.DefaultDescription)
                     .HasMaxLength(255)
@@ -1760,23 +2066,31 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("default_price")
                     .HasDefaultValueSql("'0.00'");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<Setting>(entity =>
             {
                 entity.ToTable("settings");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.Key, "settings_key_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.Details).HasColumnName("details");
+                entity.Property(e => e.Details)
+                    .HasColumnType("text")
+                    .HasColumnName("details");
 
                 entity.Property(e => e.DisplayName)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("display_name");
 
@@ -1785,20 +2099,21 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("group");
 
                 entity.Property(e => e.Key)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("key");
 
                 entity.Property(e => e.Order)
+                    .HasColumnType("int(11)")
                     .HasColumnName("order")
                     .HasDefaultValueSql("'1'");
 
                 entity.Property(e => e.Type)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("type");
 
-                entity.Property(e => e.Value).HasColumnName("value");
+                entity.Property(e => e.Value)
+                    .HasColumnType("text")
+                    .HasColumnName("value");
             });
 
             modelBuilder.Entity<Step>(entity =>
@@ -1806,32 +2121,50 @@ namespace MOTOSTORE.DataAccess
                 entity.ToTable("steps");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(255)
                     .HasColumnName("status");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<StepsAccessory>(entity =>
             {
                 entity.HasKey(e => new { e.AccessoryId, e.StepId })
-                    .HasName("PRIMARY");
+                    .HasName("PRIMARY")
+                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
                 entity.ToTable("steps_accessories");
+
+                entity.HasCharSet("utf8")
+                    .UseCollation("utf8_general_ci");
 
                 entity.HasIndex(e => e.StepId, "steps_id_steps_fk");
 
                 entity.Property(e => e.AccessoryId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("accessory_id");
 
                 entity.Property(e => e.StepId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("step_id");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Accessory)
                     .WithMany(p => p.StepsAccessories)
@@ -1848,36 +2181,55 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("stock");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(191)
                     .HasColumnName("status");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
             });
 
             modelBuilder.Entity<StockVehicle>(entity =>
             {
                 entity.HasKey(e => new { e.VehicleId, e.StockId })
-                    .HasName("PRIMARY");
+                    .HasName("PRIMARY")
+                    .HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
 
                 entity.ToTable("stock_vehicle");
+
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
 
                 entity.HasIndex(e => e.StockId, "stock_vehicle_stock_id_fk");
 
                 entity.HasIndex(e => e.VehicleId, "stock_vehicle_vehicle_id_fk");
 
                 entity.Property(e => e.VehicleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("vehicle_id");
 
                 entity.Property(e => e.StockId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("stock_id");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("user_id");
 
                 entity.HasOne(d => d.Stock)
@@ -1895,34 +2247,42 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("translations");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => new { e.TableName, e.ColumnName, e.ForeignKey, e.Locale }, "translations_table_name_column_name_foreign_key_locale_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.ColumnName)
-                    .IsRequired()
                     .HasMaxLength(64)
                     .HasColumnName("column_name");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.ForeignKey)
-                    .HasColumnType("int unsigned")
+                    .HasColumnType("int(10) unsigned")
                     .HasColumnName("foreign_key");
 
                 entity.Property(e => e.Locale)
-                    .IsRequired()
                     .HasMaxLength(2)
                     .HasColumnName("locale");
 
                 entity.Property(e => e.TableName)
-                    .IsRequired()
                     .HasMaxLength(64)
                     .HasColumnName("table_name");
 
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
                 entity.Property(e => e.Value)
-                    .IsRequired()
+                    .HasColumnType("text")
                     .HasColumnName("value");
             });
 
@@ -1930,93 +2290,106 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("users");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
+                entity.HasIndex(e => e.Email, "users_email_unique")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.RoleId, "users_role_id_foreign");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.DeletedAt)
-                    .HasColumnType("datetime(6)")
-                    .HasColumnName("deleted_at");
+                entity.Property(e => e.Avatar)
+                    .HasMaxLength(191)
+                    .HasColumnName("avatar")
+                    .HasDefaultValueSql("'users/default.png'");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("email");
 
+                entity.Property(e => e.EmailVerifiedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("email_verified_at");
+
                 entity.Property(e => e.Name)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("name");
 
                 entity.Property(e => e.Password)
-                    .IsRequired()
                     .HasMaxLength(191)
                     .HasColumnName("password");
 
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .HasColumnName("phone");
-
-                entity.Property(e => e.RoleId).HasColumnName("roleId");
-            });
-
-            modelBuilder.Entity<UserRole>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.RoleId })
-                    .HasName("PRIMARY");
-
-                entity.ToTable("user_roles");
-
-                entity.HasIndex(e => e.RoleId, "user_roles_role_id_index");
-
-                entity.HasIndex(e => e.UserId, "user_roles_user_id_index");
-
-                entity.Property(e => e.UserId)
-                    .HasColumnType("bigint unsigned")
-                    .HasColumnName("user_id");
+                entity.Property(e => e.RememberToken)
+                    .HasMaxLength(100)
+                    .HasColumnName("remember_token");
 
                 entity.Property(e => e.RoleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("role_id");
 
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("role_user_id_fk");
+                entity.Property(e => e.Settings)
+                    .HasColumnType("text")
+                    .HasColumnName("settings");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserRoles)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("user_role_id_fk");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
+                entity.HasMany(d => d.Roles)
+                    .WithMany(p => p.Users)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "UserRole",
+                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").HasConstraintName("role_user_id_fk"),
+                        r => r.HasOne<User>().WithMany().HasForeignKey("UserId").HasConstraintName("user_role_id_fk"),
+                        j =>
+                        {
+                            j.HasKey("UserId", "RoleId").HasName("PRIMARY").HasAnnotation("MySql:IndexPrefixLength", new[] { 0, 0 });
+
+                            j.ToTable("user_roles").HasCharSet("utf8mb4").UseCollation("utf8mb4_unicode_ci");
+
+                            j.HasIndex(new[] { "RoleId" }, "user_roles_role_id_index");
+
+                            j.HasIndex(new[] { "UserId" }, "user_roles_user_id_index");
+
+                            j.IndexerProperty<ulong>("UserId").HasColumnType("bigint(20) unsigned").HasColumnName("user_id");
+
+                            j.IndexerProperty<ulong>("RoleId").HasColumnType("bigint(20) unsigned").HasColumnName("role_id");
+                        });
             });
 
             modelBuilder.Entity<Vehicle>(entity =>
             {
                 entity.ToTable("vehicles");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.BrandId, "vehicles_brand_id_fk");
 
                 entity.HasIndex(e => e.TypeId, "vehicles_type_id_fk");
 
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
-                entity.Property(e => e.AcquiredDate)
-                    .HasColumnType("date")
-                    .HasColumnName("acquired_date");
+                entity.Property(e => e.AcquiredDate).HasColumnName("acquired_date");
 
-                entity.Property(e => e.BolloExpiry)
-                    .HasColumnType("date")
-                    .HasColumnName("bollo_expiry");
+                entity.Property(e => e.BolloExpiry).HasColumnName("bollo_expiry");
 
                 entity.Property(e => e.Brand)
                     .HasMaxLength(191)
                     .HasColumnName("brand");
 
                 entity.Property(e => e.BrandId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("brand_id");
 
                 entity.Property(e => e.Color)
@@ -2027,11 +2400,19 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("costs");
 
-                entity.Property(e => e.DeliveryDate)
-                    .HasColumnType("date")
-                    .HasColumnName("delivery_date");
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
 
-                entity.Property(e => e.Displacement).HasColumnName("displacement");
+                entity.Property(e => e.DeletedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("deleted_at");
+
+                entity.Property(e => e.DeliveryDate).HasColumnName("delivery_date");
+
+                entity.Property(e => e.Displacement)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("displacement");
 
                 entity.Property(e => e.Frame)
                     .HasMaxLength(191)
@@ -2041,27 +2422,21 @@ namespace MOTOSTORE.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("from");
 
-                entity.Property(e => e.InCustomerId).HasColumnName("in_customer_id");
+                entity.Property(e => e.InCustomerId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("in_customer_id");
 
-                entity.Property(e => e.InternalNote)
-                    .HasColumnType("longtext")
-                    .HasColumnName("internal_note");
+                entity.Property(e => e.InternalNote).HasColumnName("internal_note");
 
                 entity.Property(e => e.Invoice)
                     .HasMaxLength(255)
                     .HasColumnName("invoice");
 
-                entity.Property(e => e.InvoiceDate)
-                    .HasColumnType("date")
-                    .HasColumnName("invoice_date");
+                entity.Property(e => e.InvoiceDate).HasColumnName("invoice_date");
 
-                entity.Property(e => e.InvoiceExpiryDate)
-                    .HasColumnType("date")
-                    .HasColumnName("invoice_expiry_date");
+                entity.Property(e => e.InvoiceExpiryDate).HasColumnName("invoice_expiry_date");
 
-                entity.Property(e => e.InvoicePaymentDate)
-                    .HasColumnType("date")
-                    .HasColumnName("invoice_payment_date");
+                entity.Property(e => e.InvoicePaymentDate).HasColumnName("invoice_payment_date");
 
                 entity.Property(e => e.InvoicePaymentType)
                     .HasMaxLength(255)
@@ -2069,7 +2444,9 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.InvoiceRelease).HasColumnName("invoice_release");
 
-                entity.Property(e => e.Km).HasColumnName("km");
+                entity.Property(e => e.Km)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("km");
 
                 entity.Property(e => e.ListPrice)
                     .HasColumnType("double(16,2)")
@@ -2083,29 +2460,35 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnType("double(16,2)")
                     .HasColumnName("other_expenses");
 
-                entity.Property(e => e.OutCustomerId).HasColumnName("out_customer_id");
+                entity.Property(e => e.OutCustomerId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("out_customer_id");
 
                 entity.Property(e => e.PackagePrice)
                     .HasColumnType("double(16,2)")
                     .HasColumnName("package_price");
 
                 entity.Property(e => e.ParentId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("parent_id");
 
-                entity.Property(e => e.PermutaCustomerId).HasColumnName("permuta_customer_id");
+                entity.Property(e => e.PermutaCustomerId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("permuta_customer_id");
 
-                entity.Property(e => e.PermutaId).HasColumnName("permuta_id");
+                entity.Property(e => e.PermutaId)
+                    .HasColumnType("bigint(20)")
+                    .HasColumnName("permuta_id");
 
                 entity.Property(e => e.Plate)
                     .HasMaxLength(191)
                     .HasColumnName("plate");
 
-                entity.Property(e => e.PlateDate)
-                    .HasColumnType("date")
-                    .HasColumnName("plate_date");
+                entity.Property(e => e.PlateDate).HasColumnName("plate_date");
 
-                entity.Property(e => e.PrevId).HasColumnName("prev_id");
+                entity.Property(e => e.PrevId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("prev_id");
 
                 entity.Property(e => e.Promotion)
                     .HasColumnType("double(16,2)")
@@ -2113,13 +2496,9 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.Rented).HasColumnName("rented");
 
-                entity.Property(e => e.RevisionExpiry)
-                    .HasColumnType("date")
-                    .HasColumnName("revision_expiry");
+                entity.Property(e => e.RevisionExpiry).HasColumnName("revision_expiry");
 
-                entity.Property(e => e.SaleDate)
-                    .HasColumnType("date")
-                    .HasColumnName("sale_date");
+                entity.Property(e => e.SaleDate).HasColumnName("sale_date");
 
                 entity.Property(e => e.SalePrice)
                     .HasColumnType("double(16,2)")
@@ -2134,18 +2513,20 @@ namespace MOTOSTORE.DataAccess
                     .HasColumnName("type");
 
                 entity.Property(e => e.TypeId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("type_id");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
 
-                entity.Property(e => e.VehicleConditions)
-                    .HasColumnType("longtext")
-                    .HasColumnName("vehicle_conditions");
+                entity.Property(e => e.UserId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("user_id");
 
-                entity.Property(e => e.VehicleNote)
-                    .HasColumnType("longtext")
-                    .HasColumnName("vehicle_note");
+                entity.Property(e => e.VehicleConditions).HasColumnName("vehicle_conditions");
+
+                entity.Property(e => e.VehicleNote).HasColumnName("vehicle_note");
 
                 entity.Property(e => e.VehicleType)
                     .HasMaxLength(191)
@@ -2157,11 +2538,11 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.Web).HasColumnName("web");
 
-                entity.Property(e => e.WebDescription)
-                    .HasColumnType("longtext")
-                    .HasColumnName("web_description");
+                entity.Property(e => e.WebDescription).HasColumnName("web_description");
 
-                entity.Property(e => e.Year).HasColumnName("year");
+                entity.Property(e => e.Year)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("year");
 
                 entity.HasOne(d => d.BrandNavigation)
                     .WithMany(p => p.Vehicles)
@@ -2182,16 +2563,19 @@ namespace MOTOSTORE.DataAccess
 
                 entity.ToTable("vehicle_accessory");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.HasIndex(e => e.AccessoryId, "vehicle_accessory_accessory_id_fk");
 
                 entity.HasIndex(e => e.VehicleId, "vehicle_accessory_vehicle_id_fk");
 
                 entity.Property(e => e.AccessoryId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("accessory_id");
 
                 entity.Property(e => e.VehicleId)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("vehicle_id");
 
                 entity.HasOne(d => d.Accessory)
@@ -2209,13 +2593,17 @@ namespace MOTOSTORE.DataAccess
             {
                 entity.ToTable("vehicle_properties");
 
+                entity.HasCharSet("utf8mb4")
+                    .UseCollation("utf8mb4_unicode_ci");
+
                 entity.Property(e => e.Id)
-                    .HasColumnType("bigint unsigned")
+                    .HasColumnType("bigint(20) unsigned")
                     .HasColumnName("id");
 
                 entity.Property(e => e.AbsSystem).HasColumnName("abs_system");
 
                 entity.Property(e => e.BackTire)
+                    .HasColumnType("int(11)")
                     .HasColumnName("back_tire")
                     .HasDefaultValueSql("'0'");
 
@@ -2223,9 +2611,14 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.CirculationBooklet).HasColumnName("circulation_booklet");
 
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("created_at");
+
                 entity.Property(e => e.Equipment).HasColumnName("equipment");
 
                 entity.Property(e => e.FrontTire)
+                    .HasColumnType("int(11)")
                     .HasColumnName("front_tire")
                     .HasDefaultValueSql("'0'");
 
@@ -2240,6 +2633,7 @@ namespace MOTOSTORE.DataAccess
                 entity.Property(e => e.MasterKey).HasColumnName("master_key");
 
                 entity.Property(e => e.Owners)
+                    .HasColumnType("int(11)")
                     .HasColumnName("owners")
                     .HasDefaultValueSql("'0'");
 
@@ -2255,7 +2649,13 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.TrackOnly).HasColumnName("track_only");
 
-                entity.Property(e => e.VehicleId).HasColumnName("vehicle_id");
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("timestamp")
+                    .HasColumnName("updated_at");
+
+                entity.Property(e => e.VehicleId)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("vehicle_id");
 
                 entity.Property(e => e.Warranty)
                     .HasMaxLength(45)
@@ -2265,10 +2665,6 @@ namespace MOTOSTORE.DataAccess
 
                 entity.Property(e => e.Weakened).HasColumnName("weakened");
             });
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

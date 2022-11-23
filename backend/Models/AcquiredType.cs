@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class AcquiredType
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public ulong Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

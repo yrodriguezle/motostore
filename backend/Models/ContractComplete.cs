@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class ContractComplete
     {
-        public long ContractId { get; set; }
-        public long CompleteId { get; set; }
+        public ulong ContractId { get; set; }
+        public ulong CompleteId { get; set; }
         public bool? Status { get; set; }
-        public long UserId { get; set; }
+        public ulong UserId { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

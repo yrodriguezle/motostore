@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class EstimatesAccessory
     {
-        public long EstimateId { get; set; }
-        public long AccessoryId { get; set; }
+        public ulong EstimateId { get; set; }
+        public ulong AccessoryId { get; set; }
 
-        public virtual Accessory Accessory { get; set; }
-        public virtual Estimate Estimate { get; set; }
+        public virtual Accessory Accessory { get; set; } = null!;
+        public virtual Estimate Estimate { get; set; } = null!;
     }
 }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Complete
     {
-        public long Id { get; set; }
-        public string Code { get; set; }
+        public ulong Id { get; set; }
+        public string Code { get; set; } = null!;
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

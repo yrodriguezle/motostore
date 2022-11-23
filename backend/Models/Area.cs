@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Area
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Cap { get; set; }
-        public string Region { get; set; }
-        public string Province { get; set; }
+        public ulong Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Cap { get; set; }
+        public string Region { get; set; } = null!;
+        public string Province { get; set; } = null!;
         public int Prefix { get; set; }
-        public string TaxCode { get; set; }
+        public string TaxCode { get; set; } = null!;
         public double? Surface { get; set; }
         public int? ResidentsNum { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public int? CountryId { get; set; }
     }
 }

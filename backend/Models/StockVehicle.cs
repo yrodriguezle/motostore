@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class StockVehicle
     {
-        public long VehicleId { get; set; }
-        public long StockId { get; set; }
-        public long UserId { get; set; }
+        public ulong VehicleId { get; set; }
+        public ulong StockId { get; set; }
+        public ulong UserId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public virtual Stock Stock { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
+        public virtual Stock Stock { get; set; } = null!;
+        public virtual Vehicle Vehicle { get; set; } = null!;
     }
 }

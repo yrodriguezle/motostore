@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class StepsAccessory
     {
-        public long AccessoryId { get; set; }
-        public long StepId { get; set; }
+        public ulong AccessoryId { get; set; }
+        public ulong StepId { get; set; }
         public long UserId { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
-        public virtual Accessory Accessory { get; set; }
-        public virtual Step Step { get; set; }
+        public virtual Accessory Accessory { get; set; } = null!;
+        public virtual Step Step { get; set; } = null!;
     }
 }

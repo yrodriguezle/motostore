@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Image
     {
-        public long Id { get; set; }
-        public string Filename { get; set; }
-        public long? VehicleId { get; set; }
+        public ulong Id { get; set; }
+        public string? Filename { get; set; }
+        public ulong? VehicleId { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual Vehicle Vehicle { get; set; }
+        public virtual Vehicle? Vehicle { get; set; }
     }
 }

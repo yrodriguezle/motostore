@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Translation
     {
-        public int Id { get; set; }
-        public string TableName { get; set; }
-        public string ColumnName { get; set; }
-        public int ForeignKey { get; set; }
-        public string Locale { get; set; }
-        public string Value { get; set; }
+        public uint Id { get; set; }
+        public string TableName { get; set; } = null!;
+        public string ColumnName { get; set; } = null!;
+        public uint ForeignKey { get; set; }
+        public string Locale { get; set; } = null!;
+        public string Value { get; set; } = null!;
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

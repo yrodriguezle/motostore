@@ -1,26 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class DataRow
     {
-        public int Id { get; set; }
-        public int DataTypeId { get; set; }
-        public string Field { get; set; }
-        public string Type { get; set; }
-        public string DisplayName { get; set; }
+        public uint Id { get; set; }
+        public uint DataTypeId { get; set; }
+        public string Field { get; set; } = null!;
+        public string Type { get; set; } = null!;
+        public string DisplayName { get; set; } = null!;
         public bool Required { get; set; }
         public bool? Browse { get; set; }
         public bool? Read { get; set; }
         public bool? Edit { get; set; }
         public bool? Add { get; set; }
         public bool? Delete { get; set; }
-        public string Details { get; set; }
+        public string? Details { get; set; }
         public int Order { get; set; }
 
-        public virtual DataType DataType { get; set; }
+        public virtual DataType DataType { get; set; } = null!;
     }
 }

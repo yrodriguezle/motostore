@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Menu
     {
@@ -12,8 +10,10 @@ namespace MOTOSTORE.Models
             MenuItems = new HashSet<MenuItem>();
         }
 
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public uint Id { get; set; }
+        public string Name { get; set; } = null!;
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<MenuItem> MenuItems { get; set; }
     }

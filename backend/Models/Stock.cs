@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Stock
     {
@@ -12,8 +10,10 @@ namespace MOTOSTORE.Models
             StockVehicles = new HashSet<StockVehicle>();
         }
 
-        public long Id { get; set; }
-        public string Status { get; set; }
+        public ulong Id { get; set; }
+        public string? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<StockVehicle> StockVehicles { get; set; }
     }

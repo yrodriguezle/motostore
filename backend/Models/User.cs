@@ -1,25 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class User
     {
         public User()
         {
-            UserRoles = new HashSet<UserRole>();
+            Roles = new HashSet<Role>();
         }
 
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Phone { get; set; }
-        public DateTime? DeletedAt { get; set; }
-        public int? RoleId { get; set; }
+        public ulong Id { get; set; }
+        public ulong? RoleId { get; set; }
+        public string Name { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string? Avatar { get; set; }
+        public DateTime? EmailVerifiedAt { get; set; }
+        public string Password { get; set; } = null!;
+        public string? RememberToken { get; set; }
+        public string? Settings { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

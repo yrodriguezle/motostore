@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Step
     {
@@ -12,8 +10,10 @@ namespace MOTOSTORE.Models
             StepsAccessories = new HashSet<StepsAccessory>();
         }
 
-        public long Id { get; set; }
-        public string Status { get; set; }
+        public ulong Id { get; set; }
+        public string? Status { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<StepsAccessory> StepsAccessories { get; set; }
     }

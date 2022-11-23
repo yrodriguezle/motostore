@@ -8,21 +8,22 @@
 
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="7.1.1" />
+    <PackageReference Include="GraphQL.DataLoader" Version="7.1.1" />
+    <PackageReference Include="GraphQL.MemoryCache" Version="7.1.1" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="7.1.1" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="7.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
+    <PackageReference Include="GraphQL.SystemTextJson" Version="7.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.16" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

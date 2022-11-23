@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Permission
     {
         public Permission()
         {
-            PermissionRoles = new HashSet<PermissionRole>();
+            Roles = new HashSet<Role>();
         }
 
-        public long Id { get; set; }
-        public string Key { get; set; }
-        public string TableName { get; set; }
+        public ulong Id { get; set; }
+        public string Key { get; set; } = null!;
+        public string? TableName { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual ICollection<PermissionRole> PermissionRoles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class ContractDocument
     {
-        public long Id { get; set; }
-        public long ContractId { get; set; }
-        public long UserId { get; set; }
-        public string DisplayName { get; set; }
-        public string FileName { get; set; }
+        public ulong Id { get; set; }
+        public ulong ContractId { get; set; }
+        public ulong UserId { get; set; }
+        public string DisplayName { get; set; } = null!;
+        public string FileName { get; set; } = null!;
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual Contract Contract { get; set; }
+        public virtual Contract Contract { get; set; } = null!;
     }
 }

@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class PaymentsContract
     {
-        public long Id { get; set; }
-        public long PaymentId { get; set; }
-        public long ContractId { get; set; }
-        public long? UserId { get; set; }
+        public ulong Id { get; set; }
+        public ulong PaymentId { get; set; }
+        public ulong ContractId { get; set; }
+        public ulong? UserId { get; set; }
         public short? BuiltIn { get; set; }
         public double? Amount { get; set; }
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual Contract Contract { get; set; }
-        public virtual Payment Payment { get; set; }
+        public virtual Contract Contract { get; set; } = null!;
+        public virtual Payment Payment { get; set; } = null!;
     }
 }

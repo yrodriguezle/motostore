@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class AcquiredsContract
     {
-        public long VehicleId { get; set; }
-        public long ContractId { get; set; }
+        public ulong VehicleId { get; set; }
+        public ulong ContractId { get; set; }
 
-        public virtual Contract Contract { get; set; }
-        public virtual Vehicle Vehicle { get; set; }
+        public virtual Contract Contract { get; set; } = null!;
+        public virtual Vehicle Vehicle { get; set; } = null!;
     }
 }

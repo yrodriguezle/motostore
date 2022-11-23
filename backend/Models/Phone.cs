@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class Phone
     {
         public Phone()
         {
-            CustomersPhones = new HashSet<CustomersPhone>();
+            Customers = new HashSet<Customer>();
         }
 
-        public long Id { get; set; }
-        public string Phone1 { get; set; }
+        public ulong Id { get; set; }
+        public string Phone1 { get; set; } = null!;
 
-        public virtual ICollection<CustomersPhone> CustomersPhones { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
-
-namespace MOTOSTORE.Models
+namespace Motostore.Models
 {
     public partial class ContractsService
     {
-        public long Id { get; set; }
-        public long ServiceId { get; set; }
-        public long ContractId { get; set; }
+        public ulong Id { get; set; }
+        public ulong ServiceId { get; set; }
+        public ulong ContractId { get; set; }
         public double? Price { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public virtual Contract Contract { get; set; }
-        public virtual Service Service { get; set; }
+        public virtual Contract Contract { get; set; } = null!;
+        public virtual Service Service { get; set; } = null!;
     }
 }

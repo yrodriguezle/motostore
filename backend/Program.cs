@@ -1,44 +1,45 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
+
 using GraphQL;
 using GraphQL.Types;
-using MOTOSTORE.GraphQL;
 using GraphQL.MicrosoftDI;
+
+using Motostore.DataAccess;
+using Motostore.GraphQL;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddDbContext<DataContext>((options) => {
+    string connectionString = builder.Configuration.GetConnectionString("Default");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 builder.Services.AddSingleton<ISchema, MotostoreSchema>(services => new MotostoreSchema(new SelfActivatingServiceProvider(services)));
-builder.Services.AddGraphQL(options => options
+builder.Services.AddGraphQL(b => b
     .ConfigureExecution(async (options, next) => {
         var timer = Stopwatch.StartNew();
         var result = await next(options);
         result.Extensions ??= new Dictionary<string, object?>();
         result.Extensions["elapsedMs"] = timer.ElapsedMilliseconds;
         return result;
-    }));
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer((options) =>
+    })
+    .AddSystemTextJson()
+    .AddSchema<MotostoreSchema>()
+    .AddGraphTypes(typeof(MotostoreSchema).Assembly));
+builder.Services.AddCors(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt: Key"])),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        RequireExpirationTime = true,
-        ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero
-    };
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.WithOrigins("*")
+                   .AllowAnyHeader();
+        });
 });
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -51,10 +52,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+app.UseCors();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseGraphQL<ISchema>();
 
 app.Run();

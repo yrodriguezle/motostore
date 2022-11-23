@@ -46,10 +46,6 @@ bin
 obj
 packages
 
-# local sqlite db that is auto generated
-LocalDatabase.db
-AMICO4forWEB.csproj.user
-
 # code
 /.vs
 /.vscode
