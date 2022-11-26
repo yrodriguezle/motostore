@@ -7,6 +7,8 @@ using GraphQL.MicrosoftDI;
 using Motostore.DataAccess;
 using Motostore.GraphQL;
 using System.Diagnostics;
+using Motostore.Models;
+using Motostore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,7 @@ builder.Services.AddDbContext<DataContext>((options) => {
     string connectionString = builder.Configuration.GetConnectionString("Default");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
+builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddSingleton<ISchema, MotostoreSchema>(services => new MotostoreSchema(new SelfActivatingServiceProvider(services)));
 builder.Services.AddGraphQL(b => b
     .ConfigureExecution(async (options, next) => {

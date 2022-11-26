@@ -22,35 +22,30 @@ namespace Motostore.Helpers
             object[] primaryKeyValues = (object[])GetPrimaryKeys(entity, dataContext);
             return await dataContext.FindAsync<T>(primaryKeyValues);
         }
-        public static async Task<T> SetEntityProperties<T>(T entity, T foundEntity, DbContext dataContext, string[] ignores = null, string[] force = null) where T : class
+        public static async Task<T> SetEntityProperties<T>(T entity, T? seekedEntity, DbContext dataContext, string[]? ignores = null, string[]? force = null) where T : class
         {
-            string[] ignoreProps = ignores ?? new string[] { };
-            string[] forceProps = force ?? new string[] { };
+            string[] ignoreProps = ignores ?? Array.Empty<string>();
+            string[] forceProps = force ?? Array.Empty<string>();
 
             EntityEntry<T> newOrUpdatedEntity;
-            if (foundEntity is T)
+            if (seekedEntity is not null)
             {
-                EntityEntry entityEntry = dataContext.Entry(foundEntity);
-                Dictionary<string, object> props = new Dictionary<string, object>();
+                EntityEntry entityEntry = dataContext.Entry(seekedEntity);
+                Dictionary<string, object?> props = new();
                 PropertyInfo[] entityProps = entity.GetType().GetProperties();
                 foreach (PropertyInfo propInfo in entityProps)
                 {
-                    object propValue = propInfo.PropertyType == typeof(DateTime?)
-                        ? UtilityHelper.NormalizeDateTime(propInfo.GetValue(entity))
-                        : propInfo.GetValue(entity);
-                    if (
-                        (
-                            forceProps.Contains(propInfo.Name)
-                            || (propValue != null || propInfo.PropertyType == typeof(DateTime?))
-                        )
-                        && !ignoreProps.Contains(propInfo.Name)
-                    )
+                    object? propValue = propInfo.PropertyType != typeof(DateTime?)
+                        ? propInfo.GetValue(entity)
+                        : UtilityHelper.NormalizeDateTime(propInfo.GetValue(entity));
+                    if ((forceProps.Contains(propInfo.Name) || (propValue != null || propInfo.PropertyType == typeof(DateTime?))) 
+                        && !ignoreProps.Contains(propInfo.Name))
                     {
                         props.Add(propInfo.Name, propValue);
                     }
                 }
                 entityEntry.CurrentValues.SetValues(props);
-                newOrUpdatedEntity = dataContext.Set<T>().Update(foundEntity);
+                newOrUpdatedEntity = dataContext.Set<T>().Update(seekedEntity);
             }
             else
             {
@@ -58,24 +53,23 @@ namespace Motostore.Helpers
             }
             return newOrUpdatedEntity.Entity;
         }
-        public static async Task<T> AddOrUpdate<T>(T entity, T foundEntity, DbContext dataContext, string[] ignores = null) where T : class
+        public static async Task<T> AddOrUpdate<T>(T entity, T foundEntity, DbContext dataContext, string[]? ignores = null) where T : class
         {
             return await SetEntityProperties(entity, foundEntity, dataContext, ignores);
         }
-        public static async Task<T> AddOrUpdate<T>(T entity, DbContext dataContext, string[] ignores = null, string[] force = null) where T : class
+        public static async Task<T> AddOrUpdate<T>(T entity, DbContext dataContext, string[]? ignores = null, string[]? force = null) where T : class
         {
             T foundEntity = await GetExistingEntity(entity, dataContext);
             return await SetEntityProperties(entity, foundEntity, dataContext, ignores, force);
         }
-        public static async Task<T> Delete<T>(T entity, DbContext dataContext) where T : class
+        public static async Task<T?> Delete<T>(T entity, DbContext dataContext) where T : class
         {
             object[] primaryKeyValues = (object[])GetPrimaryKeys(entity, dataContext);
-            T foundEntity = await dataContext.FindAsync<T>(primaryKeyValues);
-            if (foundEntity != null)
+            T? seekedEntity = await dataContext.FindAsync<T>(primaryKeyValues);
+            if (seekedEntity is not null)
             {
-                dataContext.Set<T>().Remove(foundEntity);
-                await dataContext.SaveChangesAsync();
-                return foundEntity;
+                dataContext.Set<T>().Remove(seekedEntity);
+                return seekedEntity;
             }
             return null;
         }

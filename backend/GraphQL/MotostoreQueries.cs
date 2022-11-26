@@ -5,20 +5,29 @@ using GraphQL.MicrosoftDI;
 
 using Motostore.DataAccess;
 using Motostore.Models;
+using Motostore.Repositories;
 
 namespace Motostore.GraphQL
 {
     public class MotostoreQueries : ObjectGraphType
     {
-        public MotostoreQueries()
+        public MotostoreQueries(IRepository repository)
         {
-            Field<ListGraphType<UserType>, IEnumerable<User>>(Name = "users")
+            Field<ListGraphType<UserType>, IEnumerable<User>>(Name = "usersWithDbContext")
                 .Resolve()
-                .WithScope() // creates a service scope as described above; not necessary for serial execution
+                .WithScope()
                 .WithService<DataContext>()
                 .ResolveAsync(async (context, dataContext) =>
                 {
                     return await dataContext.Users.ToListAsync();
+                });
+            Field<ListGraphType<UserType>, IEnumerable<User>>(Name = "usersWithRepository")
+                .Resolve()
+                .WithScope()
+                .WithService<DataContext>()
+                .ResolveAsync(async (context, dataContext) =>
+                {
+                    return await repository.User.GetAll();
                 });
         }
     }

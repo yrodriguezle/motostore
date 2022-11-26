@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.EntityFrameworkCore;
 
 using Motostore.DataAccess;
 using Motostore.Models;
+using Motostore.Repositories;
 
 namespace Motostore.Controllers
 {
@@ -12,39 +14,31 @@ namespace Motostore.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IConfiguration _configuration;
         private readonly DataContext _dataContext;
+        private readonly IRepository _repository;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, DataContext dataContext)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IConfiguration configuration, DataContext dataContext, IRepository repository)
         {
             _logger = logger;
             _configuration = configuration;
             _dataContext = dataContext;
+            _repository = repository;
         }
 
-        //[HttpGet(Name = "GetWeatherForecast")]
-        //public IEnumerable<WeatherForecast> Get()
-        //{
-        //    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //    {
-        //        Date = DateTime.Now.AddDays(index),
-        //        TemperatureC = Random.Shared.Next(-20, 55),
-        //        Summary = Summaries[Random.Shared.Next(Summaries.Length)],
-        //        ConnectionString = "asdasd",
-        //    })
-        //    .ToArray();
-        //}
-
-        [HttpGet(Name = "Users")]
+        [HttpGet]
+        [Route("GetUsersByContext")]
         public async Task<IEnumerable<User>> Users()
         {
             return await _dataContext.Users.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("GetUsersByRepository")]
+        public async Task<IEnumerable<User>> UsersRepository()
+        {
+            return await _repository.User.GetAll();
         }
     }
 }
