@@ -11,7 +11,7 @@ namespace Motostore.GraphQL
 {
     public class MotostoreQueries : ObjectGraphType
     {
-        public MotostoreQueries(IRepository repository)
+        public MotostoreQueries(Defer<IRepository> repository)
         {
             Field<ListGraphType<UserType>, IEnumerable<User>>(Name = "usersWithDbContext")
                 .Resolve()
@@ -23,11 +23,9 @@ namespace Motostore.GraphQL
                 });
             Field<ListGraphType<UserType>, IEnumerable<User>>(Name = "usersWithRepository")
                 .Resolve()
-                .WithScope()
-                .WithService<DataContext>()
-                .ResolveAsync(async (context, dataContext) =>
+                .ResolveAsync(async (context) =>
                 {
-                    return await repository.User.GetAll();
+                    return await repository.Value.User.GetAll();
                 });
         }
     }
