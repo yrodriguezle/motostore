@@ -24,7 +24,7 @@ namespace Motostore.GraphQL
                     {
                         Id = Guid.NewGuid().ToString(),
                         Entity = user,
-                        SubscriptionName = "UserChanged",
+                        SubscriptionName = "userChanged",
                     });
                     return user;
                 });

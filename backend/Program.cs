@@ -33,8 +33,6 @@ builder.Services.AddSingleton<IEventMessageStack, EventMessageStack>();
 
 builder.Services.AddSingleton<MotostoreMiddleware>();
 
-builder.Services.AddSingleton<ISchema, MotostoreSchema>(services => new MotostoreSchema(new SelfActivatingServiceProvider(services)));
-
 builder.Services.AddGraphQL(b => b
     .ConfigureExecution(async (options, next) => {
         var timer = Stopwatch.StartNew();
@@ -45,7 +43,7 @@ builder.Services.AddGraphQL(b => b
     })
     .AddDataLoader()
     .AddSystemTextJson()
-    .AddSchema<MotostoreSchema>()
+    .AddSelfActivatingSchema<MotostoreSchema>()
     .AddGraphTypes(typeof(MotostoreSchema).Assembly));
 
 builder.Services.AddCors(options =>

@@ -75,7 +75,6 @@ namespace Motostore.DataAccess
             if (!optionsBuilder.IsConfigured)
             {
                 string connectionString = _configuration.GetConnectionString("Default");
-                // ServerVersion.Parse("5.7.35-mysql")
                 optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
             }
         }
@@ -2288,6 +2287,8 @@ namespace Motostore.DataAccess
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.Ignore("Keys");
+
                 entity.ToTable("users");
 
                 entity.HasCharSet("utf8mb4")
