@@ -4,6 +4,7 @@ using GraphQL.Types;
 
 using Motostore.Helpers.GraphQLSubscriptions;
 using Motostore.Models;
+using System;
 
 
 namespace Motostore.GraphQL

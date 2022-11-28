@@ -4,13 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using GraphQL;
 using GraphQL.Types;
 using GraphQL.MicrosoftDI;
-using GraphQL.Instrumentation;
 
 using Motostore.GraphQL;
 using Motostore.DataAccess;
 using Motostore.Repositories;
-using Motostore.Models;
 using Motostore.Helpers.GraphQLSubscriptions;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,15 +23,13 @@ builder.Services.AddDbContext<DataContext>((options) => {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-//builder.Services.AddAuthentication(JwtBearerDefaults);
-
-builder.Services.AddSingleton<IEventMessageStack, EventMessageStack>();
-
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
     options.MimeTypes = new[] { "application/json", "application/graphql-response+json" };
 });
+
+builder.Services.AddSingleton<IEventMessageStack, EventMessageStack>();
 
 builder.Services.AddSingleton<MotostoreMiddleware>();
 
@@ -89,8 +86,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseGraphQL<ISchema>();
-
 app.UseWebSockets();
+
+app.UseGraphQL<MotostoreSchema>("/graphql");
 
 app.Run();

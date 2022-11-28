@@ -26,7 +26,9 @@ namespace Motostore.Repositories
         }
         public async Task<T> AddOrUpdate(T entity)
         {
-            return await EntityFrameworkHelper.AddOrUpdate(entity, _dataContext);
+            T updatedEntity = await EntityFrameworkHelper.AddOrUpdate(entity, _dataContext);
+            await _dataContext.SaveChangesAsync();
+            return updatedEntity;
         }
         public async Task<T?> Delete(T entity)
         {
