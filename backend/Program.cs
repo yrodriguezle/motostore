@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using GraphQL;
 using GraphQL.Types;
 using GraphQL.MicrosoftDI;
+using GraphQL.Instrumentation;
 
 using Motostore.GraphQL;
 using Motostore.DataAccess;
 using Motostore.Repositories;
 using Motostore.Models;
-using GraphQL.Instrumentation;
 using Motostore.Helpers.GraphQLSubscriptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,9 +26,13 @@ builder.Services.AddDbContext<DataContext>((options) => {
 
 //builder.Services.AddAuthentication(JwtBearerDefaults);
 
-builder.Services.AddSingleton<IEntitySubscription, EntityDetails>();
+builder.Services.AddSingleton<IEventMessageStack, EventMessageStack>();
 
-//builder.Services.AddSingleton<IEntitySubscription, EntityDetails>();
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.MimeTypes = new[] { "application/json", "application/graphql-response+json" };
+});
 
 builder.Services.AddSingleton<MotostoreMiddleware>();
 
@@ -42,6 +46,7 @@ builder.Services.AddGraphQL(b => b
         result.Extensions["elapsedMs"] = timer.ElapsedMilliseconds;
         return result;
     })
+    .AddDataLoader()
     .AddSystemTextJson()
     .AddSchema<MotostoreSchema>()
     .AddGraphTypes(typeof(MotostoreSchema).Assembly));
@@ -67,6 +72,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseResponseCompression();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -83,5 +90,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseGraphQL<ISchema>();
+
+app.UseWebSockets();
 
 app.Run();

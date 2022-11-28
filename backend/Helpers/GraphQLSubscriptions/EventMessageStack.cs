@@ -5,16 +5,16 @@ using System.Collections.Concurrent;
 
 namespace Motostore.Helpers.GraphQLSubscriptions
 {
-    public class EntityDetails : IEntitySubscription
+    public class EventMessageStack : IEventMessageStack
     {
-        private readonly ISubject<SubscriptionMessage> _messageStream = new ReplaySubject<SubscriptionMessage>(1);
-        public ConcurrentStack<SubscriptionMessage> AllEntities { get; }
-        public EntityDetails()
+        private readonly ISubject<EventMessage> _messageStream = new ReplaySubject<EventMessage>(1);
+        public ConcurrentStack<EventMessage> AllEventMessages { get; }
+        public EventMessageStack()
         {
-            AllEntities = new ConcurrentStack<SubscriptionMessage>();
+            AllEventMessages = new ConcurrentStack<EventMessage>();
         }
 
-        public IObservable<SubscriptionMessage> GetLatestEntities()
+        public IObservable<EventMessage> GetAll()
         {
             return _messageStream.Select(entity =>
             {
@@ -23,9 +23,9 @@ namespace Motostore.Helpers.GraphQLSubscriptions
                 .AsObservable();
         }
 
-        public SubscriptionMessage AddEntity(SubscriptionMessage entityDetails)
+        public EventMessage AddEventMessage(EventMessage entityDetails)
         {
-            AllEntities.Push(entityDetails);
+            AllEventMessages.Push(entityDetails);
             _messageStream.OnNext(entityDetails);
             return entityDetails;
         }
