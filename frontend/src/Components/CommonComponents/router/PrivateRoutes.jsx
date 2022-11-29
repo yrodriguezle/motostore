@@ -7,7 +7,8 @@ import {
   Route,
   Routes,
 } from 'react-router-dom';
-import { Spinner } from '@fluentui/react-components';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 import Layout from '../../Layout/Layout';
 import HomePage from '../../../Pages/HomePage';
@@ -16,9 +17,9 @@ import ViewAccessDenied from './ViewAccessDenied';
 import ProfilePage from '../../../Pages/ProfilePage';
 
 const Loader = (
-  <div className="box" style={{ height: 'calc(100vh - 88px)' }}>
-    <Spinner />
-  </div>
+  <Box sx={{ display: 'flex', height: 'calc(100vh - 88px)' }}>
+    <CircularProgress />
+  </Box>
 );
 
 function PrivateRoutes({

@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { Provider } from 'react-redux';
 import {
@@ -110,7 +111,9 @@ const {
     queryDeduplication: false,
   });
 
-  ReactDOM.render(
+  const container = document.getElementById('root');
+  const root = createRoot(container);
+  root.render(
     <ApolloProvider client={client}>
       <Provider store={store}>
         <Router>
@@ -120,7 +123,6 @@ const {
         </Router>
       </Provider>
     </ApolloProvider>,
-    document.getElementById('root'),
   );
 })();
 

@@ -1,4 +1,4 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 import {
   RECEIVE_USER,
   LOGOUT_USER,
@@ -11,10 +11,26 @@ const receiveUser = (state, { payload }) => payload;
 
 const logout = () => initialState;
 
-const functionsMap = {
-  [RECEIVE_USER]: receiveUser,
-  [LOGOUT_USER]: logout,
-  [RESET_STATE]: () => initialState,
+// const functionsMap = {
+//   [RECEIVE_USER]: receiveUser,
+//   [LOGOUT_USER]: logout,
+//   [RESET_STATE]: () => initialState,
+// };
+
+const functionsBuilder = (builder) => {
+  builder
+    .addCase(
+      createAction(RECEIVE_USER),
+      receiveUser,
+    )
+    .addCase(
+      createAction(LOGOUT_USER),
+      logout,
+    )
+    .addCase(
+      createAction(RESET_STATE),
+      () => initialState,
+    );
 };
 
-export default createReducer(initialState, functionsMap);
+export default createReducer(initialState, functionsBuilder);

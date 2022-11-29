@@ -8,8 +8,7 @@
     "plugin:react/recommended",
     "airbnb"
   ],
-  "overrides": [
-  ],
+  "overrides": [],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true

@@ -3,37 +3,31 @@ import React, {
   // useMemo,
 } from 'react';
 import {
-  // useSelector,
+  useSelector,
   useDispatch,
 } from 'react-redux';
 import {
-  // Route,
-  // Routes,
-  // Navigate,
+  Route,
+  Routes,
+  Navigate,
   useNavigate,
 } from 'react-router-dom';
-// import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from '@mui/material/styles';
 
-// eslint-disable-next-line no-unused-vars
 import { isAuthenticated } from './Common/auth';
 import useClearCache from './useClearCache';
 import bootstrap from './Redux/actions/bootstrap';
-import useSubscribeToUserChanged from './Graphql/user/useSubscribeToUserChanged';
-// import PrivateRoutes from './Components/CommonComponents/router/PrivateRoutes';
-// import LoginPage from './Pages/LoginPage';
+import darkTheme from './Common/theme/darkTheme';
+import PrivateRoutes from './Components/CommonComponents/router/PrivateRoutes';
+import LoginPage from './Pages/LoginPage';
+import useThemeDetector from './Components/CommonComponents/hooks/useThemeDetector';
 
 function App() {
   const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   useClearCache();
-
-  const { user } = useSubscribeToUserChanged();
-
-  useEffect(() => {
-    console.log('user', user);
-  }, [user]);
+  useThemeDetector();
 
   useEffect(() => {
     if (isAuthenticated() && !user) {
@@ -42,9 +36,31 @@ function App() {
   }, [dispatch, navigate, user]);
 
   return (
-    <div className="App">
-      app
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <Routes>
+        <Route
+          index
+          path={`${global.ROOT_URL}/*`}
+          element={
+            isAuthenticated()
+              ? (
+                <PrivateRoutes
+                  uiFunctions={[]}
+                />
+              ) : <Navigate replace to="/login" />
+          }
+        />
+        <Route
+          path="/login"
+          element={(
+            <LoginPage
+              uiFunctions={[]}
+            />
+          )}
+        />
+        <Route path="*" element={<Navigate to={global.ROOT_URL} />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 
