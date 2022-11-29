@@ -6,7 +6,7 @@ import rootReducer from './reducers';
 import security from './middlewares/security';
 
 const logger = createLogger({
-  predicate: () => process.env.NODE_ENV === 'development' && false,
+  predicate: () => process.env.NODE_ENV === 'development',
 });
 
 const reduxStore = (preloadedState = {}) => {

@@ -21,8 +21,6 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
 
-// import 'bootstrap/dist/css/bootstrap.min.css'; // ver 4.6.0
-
 import configureStore from './Redux/configureStore';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 

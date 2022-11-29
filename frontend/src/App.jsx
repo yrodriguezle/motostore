@@ -18,6 +18,7 @@ import { isAuthenticated } from './Common/auth';
 import useClearCache from './useClearCache';
 import bootstrap from './Redux/actions/bootstrap';
 import darkTheme from './Common/theme/darkTheme';
+import lightTheme from './Common/theme/lightTheme';
 import PrivateRoutes from './Components/CommonComponents/router/PrivateRoutes';
 import LoginPage from './Pages/LoginPage';
 import useThemeDetector from './Components/CommonComponents/hooks/useThemeDetector';
@@ -25,6 +26,7 @@ import useThemeDetector from './Components/CommonComponents/hooks/useThemeDetect
 function App() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const isThemeDark = useSelector((state) => state.settings?.darkTheme);
   const navigate = useNavigate();
   useClearCache();
   useThemeDetector();
@@ -36,7 +38,7 @@ function App() {
   }, [dispatch, navigate, user]);
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>
       <Routes>
         <Route
           index
