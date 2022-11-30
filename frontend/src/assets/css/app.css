@@ -26,6 +26,24 @@ code {
   justify-content: center;
 }
 
+.box-item {
+  position: absolute;
+  top: 20%;
+}
+
+.login-card {
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  padding: 5px;
+  -webkit-box-shadow: 0 2px 6px rgba(77, 46, 46, 0.2);
+  -moz-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  min-width: 500px;
+  overflow: hidden;
+}
+
 .red-cloud {
   fill: #d32f2f;
 }
