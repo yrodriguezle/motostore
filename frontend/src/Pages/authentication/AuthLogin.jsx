@@ -12,6 +12,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import { useTheme } from '@mui/material/styles';
 
 import logger from '../../Common/logger';
 
@@ -24,6 +25,7 @@ function Copyright(props) {
 }
 
 function AuthLogin() {
+  const theme = useTheme();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -33,7 +35,7 @@ function AuthLogin() {
     });
   };
   return (
-    <div className="login-card">
+    <div className="login-card" style={{ background: theme.palette.background.default }}>
       <Container
         component="main"
         maxWidth="xs"
@@ -53,7 +55,7 @@ function AuthLogin() {
           }}
         >
           <Typography component="h3" variant="h5">
-            Motosotre
+            Motostore
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -80,7 +82,7 @@ function AuthLogin() {
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Rimani connesso"
+              label={<Typography variant="body1">Rimani connesso</Typography>}
             />
             <Button
               type="submit"

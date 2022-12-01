@@ -1,9 +1,11 @@
 [data-theme="light"] {
   --cloudRed: #d32f2f;
+  --neutralLighterAlt: #faf9f8;
 }
 
 [data-theme="dark"] {
   --cloudRed: #ef5350;
+  --neutralLighterAlt: #1e1e1e;
 }
 
 body {
