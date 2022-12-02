@@ -1,0 +1,51 @@
+import React from 'react';
+import { useFormikContext } from 'formik';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
+import FormikTextField from '../../Components/CommonComponents/formComponents/FormikTextField';
+import FormikCheckbox from '../../Components/CommonComponents/formComponents/FormikCheckbox';
+import useFocusToFieldError from '../../Components/CommonComponents/hooks/useFocusToFieldError';
+
+function LoginForm() {
+  const { handleSubmit } = useFormikContext();
+  useFocusToFieldError();
+  return (
+    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box sx={{ mt: 1 }}>
+        <FormikTextField
+          label="Email:"
+          placeholder="Email"
+          name="email"
+          margin="normal"
+          autoFocus
+          required
+          fullWidth
+        />
+        <FormikTextField
+          label="Password:"
+          placeholder="Password"
+          name="password"
+          type="password"
+          margin="normal"
+          required
+          fullWidth
+        />
+        <FormikCheckbox
+          label="Rimani connesso"
+          name="alwaysConnected"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 2, mb: 2 }}
+        >
+          Connetti
+        </Button>
+      </Box>
+    </Box>
+  );
+}
+
+export default LoginForm;
