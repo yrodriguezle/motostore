@@ -14,9 +14,9 @@ function LoginForm() {
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
       <Box sx={{ mt: 1 }}>
         <FormikTextField
-          label="Email:"
-          placeholder="Email"
-          name="email"
+          label="Nome utente:"
+          placeholder="Nome utente"
+          name="username"
           margin="normal"
           autoFocus
           required

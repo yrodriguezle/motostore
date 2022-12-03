@@ -1,4 +1,4 @@
-﻿using Motostore.Helpers.GraphQLSubscriptions;
+﻿using Motostore.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -19,6 +19,8 @@ namespace Motostore.Models
         public string? Avatar { get; set; }
         public DateTime? EmailVerifiedAt { get; set; }
         public string Password { get; set; } = null!;
+        public byte[]? PasswordHash { get; set; }
+        public byte[]? PasswordSalt { get; set; }
         public string? RememberToken { get; set; }
         public string? Settings { get; set; }
         public DateTime? CreatedAt { get; set; }

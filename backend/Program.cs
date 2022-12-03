@@ -1,15 +1,20 @@
+using System.Text;
 using System.Diagnostics;
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using GraphQL;
 using GraphQL.Types;
 using GraphQL.MicrosoftDI;
 
 using Motostore.GraphQL;
+using Motostore.Helpers;
 using Motostore.DataAccess;
 using Motostore.Repositories;
-using Motostore.Helpers.GraphQLSubscriptions;
-using Microsoft.AspNetCore.Builder;
+using Motostore.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +34,8 @@ builder.Services.AddResponseCompression(options =>
     options.MimeTypes = new[] { "application/json", "application/graphql-response+json" };
 });
 
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
 builder.Services.AddSingleton<IEventMessageStack, EventMessageStack>();
 
 builder.Services.AddSingleton<MotostoreMiddleware>();
@@ -46,17 +53,26 @@ builder.Services.AddGraphQL(b => b
     .AddSelfActivatingSchema<MotostoreSchema>()
     .AddGraphTypes(typeof(MotostoreSchema).Assembly));
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.WithOrigins("*")
-                   .AllowAnyHeader();
-        });
-});
+builder.Services.AddCors((options) => options.AddDefaultPolicy((builder) => builder.WithOrigins("*").AllowAnyHeader()));
 
 builder.Services.AddScoped<IRepository, Repository>();
+
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+// Configure Jwt authentication
+byte[] key = Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt")["Key"]);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer((options) => options
+        .TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            RequireExpirationTime = true,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        });
 
 builder.Services.AddControllers();
 
@@ -79,6 +95,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

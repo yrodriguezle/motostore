@@ -1,10 +1,12 @@
 import React, {
-  forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState,
+  forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState,
 } from 'react';
 import MUITextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
-import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { useTheme } from '@mui/material/styles';
+import { EyeTwoTone, EyeInvisibleTwoTone } from '@ant-design/icons';
+import { blueGrey } from '@mui/material/colors';
 
 const handleMouseDownPassword = (event) => {
   event.preventDefault();
@@ -21,6 +23,7 @@ function TextField({
   const caretSelection = useRef();
   const [innerValue, setInnerValue] = useState(value);
   const [showPassword, setSowPassword] = useState(false);
+  const theme = useTheme();
 
   const handleClickShowPassword = useCallback(
     () => setSowPassword((prev) => !prev),
@@ -84,10 +87,18 @@ function TextField({
     [innerValue],
   );
 
+  const inputType = useMemo(() => {
+    if (props.type === 'password') {
+      return showPassword ? 'text' : 'password';
+    }
+    return 'text';
+  }, [props.type, showPassword]);
+
   return (
     <MUITextField
       ref={inputRef}
       size="small"
+      name={name}
       value={innerValue}
       onChange={handleChange}
       InputProps={{
@@ -98,13 +109,17 @@ function TextField({
               onClick={handleClickShowPassword}
               onMouseDown={handleMouseDownPassword}
             >
-              {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
+              {
+                showPassword
+                  ? <EyeInvisibleTwoTone twoToneColor={props.error ? theme.palette.error.main : blueGrey[500]} />
+                  : <EyeTwoTone twoToneColor={props.error ? theme.palette.error.main : blueGrey[500]} />
+              }
             </IconButton>
           </InputAdornment>
         ) : undefined,
       }}
       {...props}
-      type={showPassword ? 'text' : 'password'}
+      type={inputType}
     />
   );
 }

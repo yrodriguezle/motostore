@@ -1,4 +1,4 @@
-﻿namespace Motostore.Helpers.GraphQLSubscriptions
+﻿namespace Motostore.Helpers
 {
     public interface IEntity
     {

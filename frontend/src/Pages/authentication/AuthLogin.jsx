@@ -9,13 +9,11 @@ import * as Yup from 'yup';
 
 import LoginForm from './LoginForm';
 import logger from '../../Common/logger';
-import { validateFormikForm } from '../../Common/validators';
+import useSubmitLogin from '../../Graphql/user/useSubmitLogin';
 
 const Schema = Yup.object().shape({
-  email: Yup.string()
-    .required('Il nome utente è richiesto.'),
-  password: Yup.string()
-    .required('La password è obbligatoria.'),
+  username: Yup.string().required('Il nome utente è obbligatorio.'),
+  password: Yup.string().required('La password è obbligatoria.'),
   alwaysConnected: Yup.boolean(),
 });
 
@@ -29,13 +27,22 @@ function Copyright(props) {
 
 function AuthLogin() {
   const theme = useTheme();
+  const {
+    submitLogin,
+    // data,
+    // loading,
+    // error,
+  } = useSubmitLogin();
+
   const handleSubmit = useCallback(
-    async (values, formikProps) => {
-      logger.log('something');
-      const isValid = await validateFormikForm(values, formikProps.validateForm, formikProps.setTouched);
-      logger.log(isValid, values);
+    async (values) => {
+      const { username, password } = values;
+      const { data } = await submitLogin({
+        variables: { username, password },
+      });
+      logger.log('data', data);
     },
-    [],
+    [submitLogin],
   );
 
   return (
@@ -64,7 +71,7 @@ function AuthLogin() {
           <Formik
             enableReinitialize
             initialValues={{
-              email: '',
+              username: '',
               password: '',
               alwaysConnected: true,
             }}

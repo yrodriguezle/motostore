@@ -2,7 +2,7 @@
 using GraphQL.Resolvers;
 using GraphQL.Types;
 
-using Motostore.Helpers.GraphQLSubscriptions;
+using Motostore.Helpers;
 using Motostore.Models;
 using System;
 

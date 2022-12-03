@@ -2328,6 +2328,14 @@ namespace Motostore.DataAccess
                     .HasMaxLength(191)
                     .HasColumnName("password");
 
+                entity.Property(e => e.PasswordHash)
+                    .HasColumnType("text")
+                    .HasColumnName("passwordHash");
+
+                entity.Property(e => e.PasswordSalt)
+                    .HasColumnType("text")
+                    .HasColumnName("passwordSalt");
+
                 entity.Property(e => e.RememberToken)
                     .HasMaxLength(100)
                     .HasColumnName("remember_token");

@@ -3,7 +3,7 @@ using GraphQL.Types;
 
 using Motostore.Models;
 using Motostore.Repositories;
-using Motostore.Helpers.GraphQLSubscriptions;
+using Motostore.Helpers;
 
 namespace Motostore.GraphQL
 {
@@ -13,6 +13,8 @@ namespace Motostore.GraphQL
         public MotostoreMutations(Defer<IRepository> repository, IEventMessageStack eventMessagesStack)
         {
             _eventMessagesStack = eventMessagesStack;
+
+            Field<AccountMutationsGroup>("account").Resolve(context => new { });
 
             Field<UserType>(Name = "AddOrUpdateUser")
                 .Argument<NonNullGraphType<UserInputType>>("user")

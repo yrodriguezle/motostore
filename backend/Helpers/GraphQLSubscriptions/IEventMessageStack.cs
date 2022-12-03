@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace Motostore.Helpers.GraphQLSubscriptions
+namespace Motostore.Helpers
 {
     public interface IEventMessageStack
     {

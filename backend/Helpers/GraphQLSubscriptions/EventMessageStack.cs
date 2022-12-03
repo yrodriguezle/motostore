@@ -3,7 +3,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Collections.Concurrent;
 
-namespace Motostore.Helpers.GraphQLSubscriptions
+namespace Motostore.Helpers
 {
     public class EventMessageStack : IEventMessageStack
     {

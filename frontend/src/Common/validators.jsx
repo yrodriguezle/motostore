@@ -25,8 +25,11 @@ export const getElementByNameOrId = (nameOrId) => {
 export const setFocus = (nameOrId) => {
   const element = getElementByNameOrId(nameOrId);
   if (element) {
+    logger.log(element.focus);
     element.focus();
+    return element;
   }
+  return null;
 };
 
 const setObjectTouched = (object) => Object.keys(object)
@@ -49,7 +52,6 @@ export const getErrorFields = (object, prefix = '') => Object
 export const validateFormikForm = async (values, validateForm, setTouched, setMessage) => {
   setTouched(setObjectTouched(values));
   const errors = await validateForm();
-  // const [firstFieldError] = Object.keys(errors);
   const [firstFieldError] = getErrorFields(errors);
   if (global.window.document.getElementsByName(firstFieldError)) {
     if (isArray(errors[firstFieldError])) {

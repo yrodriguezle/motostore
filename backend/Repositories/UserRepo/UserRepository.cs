@@ -1,4 +1,5 @@
-﻿using Motostore.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using Motostore.DataAccess;
 using Motostore.Models;
 
 namespace Motostore.Repositories
@@ -9,6 +10,10 @@ namespace Motostore.Repositories
         public UserRepository(DataContext dataContext, IConfiguration configuration) : base(dataContext)
         {
             _dataContext = dataContext;
+        }
+        public async Task<User?> GetByUsername(string username)
+        {
+            return await _dataContext.Users.FirstOrDefaultAsync((x) => x.Email.Contains(username));
         }
     }
 }
