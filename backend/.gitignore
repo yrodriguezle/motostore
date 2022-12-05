@@ -49,6 +49,3 @@ packages
 # code
 /.vs
 /.vscode
-
-# env server side
-appsettings.json

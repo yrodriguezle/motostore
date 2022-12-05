@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Motostore.DataAccess;
 using Motostore.Models;
+using System.Data.SqlTypes;
+using System.Linq.Expressions;
 
 namespace Motostore.Repositories
 {
@@ -13,7 +15,7 @@ namespace Motostore.Repositories
         }
         public async Task<User?> GetByUsername(string username)
         {
-            return await _dataContext.Users.FirstOrDefaultAsync((x) => x.Email.Contains(username));
+            return await _dataContext.Users.FirstOrDefaultAsync((x) => x.Email.Substring(0, username.Length) == username || x.Email == username);
         }
     }
 }

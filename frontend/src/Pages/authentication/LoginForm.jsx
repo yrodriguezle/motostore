@@ -8,7 +8,7 @@ import FormikCheckbox from '../../Components/CommonComponents/formComponents/For
 import useFocusToFieldError from '../../Components/CommonComponents/hooks/useFocusToFieldError';
 
 function LoginForm() {
-  const { handleSubmit } = useFormikContext();
+  const { isSubmitting, handleSubmit } = useFormikContext();
   useFocusToFieldError();
   return (
     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -18,6 +18,7 @@ function LoginForm() {
           placeholder="Nome utente"
           name="username"
           margin="normal"
+          autoComplete="off"
           autoFocus
           required
           fullWidth
@@ -28,6 +29,7 @@ function LoginForm() {
           name="password"
           type="password"
           margin="normal"
+          autoComplete="off"
           required
           fullWidth
         />
@@ -40,6 +42,7 @@ function LoginForm() {
           fullWidth
           variant="contained"
           sx={{ mt: 2, mb: 2 }}
+          disabled={isSubmitting}
         >
           Connetti
         </Button>

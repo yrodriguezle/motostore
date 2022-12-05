@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 
 using Motostore.Helpers;
@@ -31,7 +32,7 @@ namespace Motostore.GraphQL
 
                     if (user == null || !passwordHasher.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                     {
-                        throw new Exception("Unauthorized");
+                        throw new ExecutionError("Utente o password non validi!");
                     }
                     Claim[] usersClaims = new[]
                     {

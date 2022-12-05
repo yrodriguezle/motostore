@@ -22,6 +22,7 @@ function TextField({
   const inputRef = useRef(null);
   const caretSelection = useRef();
   const [innerValue, setInnerValue] = useState(value);
+  const [focused, setFocus] = useState(!!props.autoFocus);
   const [showPassword, setSowPassword] = useState(false);
   const theme = useTheme();
 
@@ -69,6 +70,26 @@ function TextField({
     [name, onChange, textUpperCase],
   );
 
+  const handleFocus = useCallback(
+    (...focusProps) => {
+      setFocus(true);
+      if (props.onFocus) {
+        props.onFocus(...focusProps);
+      }
+    },
+    [props],
+  );
+
+  const handleBlur = useCallback(
+    (...blurProps) => {
+      setFocus(false);
+      if (props.onBlur) {
+        props.onBlur(...blurProps);
+      }
+    },
+    [props],
+  );
+
   useImperativeHandle(
     ref,
     () => ({
@@ -101,6 +122,7 @@ function TextField({
       name={name}
       value={innerValue}
       onChange={handleChange}
+      spellCheck={false}
       InputProps={{
         endAdornment: props.type === 'password' ? (
           <InputAdornment position="end">
@@ -118,7 +140,10 @@ function TextField({
           </InputAdornment>
         ) : undefined,
       }}
+      InputLabelProps={{ shrink: !!innerValue || focused }}
       {...props}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       type={inputType}
     />
   );
