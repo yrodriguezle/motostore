@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using GraphQL;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ namespace Motostore.Services
         string GenerateAccessToken(IEnumerable<Claim> claims);
         string GenerateRefreshToken();
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
+        bool ValidateAccessToken();
         int GetClaimUserIdFromToken(string token);
         string GetTokenFromHttpContextAccessor(IHttpContextAccessor accessor);
         bool IsSetupMode(string token);
@@ -38,14 +40,11 @@ namespace Motostore.Services
 
         public string GenerateAccessToken(IEnumerable<Claim> claims)
         {
-            bool shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
-
             JwtSecurityToken jwtToken = new JwtSecurityToken(
                 issuer: "motostore.zanuso.it",
-                shouldAddAudienceClaim ? "Anyone" : string.Empty,
                 claims: claims,
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddMilliseconds(500),
                 signingCredentials: new SigningCredentials(GetJwtKey(), SecurityAlgorithms.HmacSha256)
             );
             return new JwtSecurityTokenHandler().WriteToken(jwtToken);
@@ -56,6 +55,36 @@ namespace Motostore.Services
             using RandomNumberGenerator rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
+        }
+        public bool ValidateAccessToken()
+        {
+            try
+            {
+                string token = GetTokenFromHttpContextAccessor(_contextAccessor);
+                TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    ValidateIssuer = false,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = GetJwtKey(),
+                    ValidateLifetime = true
+                };
+
+                JwtSecurityTokenHandler tokenHandler = new();
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+
+                if (!(securityToken is JwtSecurityToken jwtSecurityToken)
+                    || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
         public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
         {

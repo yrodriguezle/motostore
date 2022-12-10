@@ -14,6 +14,8 @@ import {
   HttpLink,
   from,
   split,
+  fromPromise,
+  toPromise,
 } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
@@ -36,6 +38,8 @@ import './assets/css/app.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import logger from './Common/logger';
+import handleRefreshToken from './Graphql/user/handleRefreshToken';
+// import promiseToObservable from './Common/promiseToObservable';
 
 global.appVersion = packageJson.version;
 
@@ -91,12 +95,32 @@ const {
   }));
 
   const errorLink = onError((props) => {
+    const {
+      graphQLErrors, operation, forward,
+    } = props;
+    if (graphQLErrors.some(({ extensions }) => extensions.code === '401')) {
+      logger.log('...refreshing token');
+      return fromPromise(handleRefreshToken().then((jwtData) => {
+        if (jwtData) {
+          const oldHeaders = operation.getContext().headers;
+          operation.setContext({
+            headers: {
+              ...oldHeaders,
+              ...(getAuthHeaders()),
+            },
+          });
+          return toPromise(forward(operation));
+        }
+        return null;
+      }));
+    }
     logger.log(props);
+    return null;
   });
 
   const retryLink = new RetryLink({
     delay: {
-      initial: 2000,
+      initial: 200,
       max: Infinity,
     },
     attempts: {

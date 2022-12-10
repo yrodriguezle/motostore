@@ -1,12 +1,13 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { isFirstGreaterThanSecondVersion } from './Common/semver';
 import logger from './Common/logger';
-import { isAuthenticated } from './Common/auth';
+// import { isAuthenticated } from './Common/auth';
 
 const useClearCache = () => {
+  const effectRan = useRef(false);
   const location = useLocation();
   const user = useSelector((state) => state.user);
 
@@ -25,29 +26,32 @@ const useClearCache = () => {
   );
 
   useEffect(() => {
-    const handleWindowClose = (event) => {
-      event.preventDefault();
-      if (isAuthenticated() && user && user.userId) {
-        event.returnValue = ''; // eslint-disable-line no-param-reassign
-      }
-    };
+    // const handleWindowClose = (event) => {
+    //   event.preventDefault();
+    //   if (isAuthenticated() && user && user.userId) {
+    //     event.returnValue = ''; // eslint-disable-line no-param-reassign
+    //   }
+    // };
 
-    fetch('/meta.json', { cache: 'no-store' })
-      .then((response) => response.json())
-      .then((meta) => {
-        const latestVersion = meta.version;
-        const currentVersion = global.appVersion;
-        const shouldForceRefresh = isFirstGreaterThanSecondVersion(latestVersion, currentVersion);
-        if (shouldForceRefresh) {
-          logger.log(`We have a new version - ${latestVersion}. Should force refresh.`);
-          refreshCacheAndReload();
-        } else {
-          logger.log(`version - ${currentVersion}`);
-          window.addEventListener('beforeunload', handleWindowClose);
-        }
-      });
+    if (effectRan.current) {
+      fetch('/meta.json', { cache: 'no-store' })
+        .then((response) => response.json())
+        .then((meta) => {
+          const latestVersion = meta.version;
+          const currentVersion = global.appVersion;
+          const shouldForceRefresh = isFirstGreaterThanSecondVersion(latestVersion, currentVersion);
+          if (shouldForceRefresh) {
+            logger.log(`We have a new version - ${latestVersion}. Should force refresh.`);
+            refreshCacheAndReload();
+          } else {
+            logger.log(`version - ${currentVersion}`);
+            // window.addEventListener('beforeunload', handleWindowClose);
+          }
+        });
+    }
     return function cleanup() {
-      window.removeEventListener('beforeunload', handleWindowClose);
+      // window.removeEventListener('beforeunload', handleWindowClose);
+      effectRan.current = true;
     };
   }, [location, refreshCacheAndReload, user]);
 };

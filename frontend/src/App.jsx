@@ -1,41 +1,41 @@
 import React, {
-  useEffect,
-  // useMemo,
+  useEffect, useRef,
 } from 'react';
 import {
   useSelector,
-  useDispatch,
 } from 'react-redux';
 import {
   Route,
   Routes,
   Navigate,
-  useNavigate,
 } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 
 import { isAuthenticated } from './Common/auth';
 import useClearCache from './useClearCache';
-import bootstrap from './Redux/actions/bootstrap';
 import darkTheme from './Common/theme/darkTheme';
 import lightTheme from './Common/theme/lightTheme';
 import PrivateRoutes from './Components/CommonComponents/router/PrivateRoutes';
 import LoginPage from './Pages/LoginPage';
 import useThemeDetector from './Components/CommonComponents/hooks/useThemeDetector';
+import useBootstrapUser from './Graphql/user/useBootstrapUser';
 
 function App() {
-  const dispatch = useDispatch();
+  const effectRan = useRef(false);
   const user = useSelector((state) => state.user);
   const isThemeDark = useSelector((state) => state.settings?.darkTheme);
-  const navigate = useNavigate();
+  const bootstrapUser = useBootstrapUser();
   useClearCache();
   useThemeDetector();
 
   useEffect(() => {
-    if (isAuthenticated() && !user) {
-      dispatch(bootstrap(navigate));
+    if (effectRan.current || process.env.NODE_ENV !== 'development') {
+      if (isAuthenticated() && !user) {
+        bootstrapUser();
+      }
     }
-  }, [dispatch, navigate, user]);
+    return () => { effectRan.current = true; };
+  }, [bootstrapUser, user]);
 
   return (
     <ThemeProvider theme={isThemeDark ? darkTheme : lightTheme}>

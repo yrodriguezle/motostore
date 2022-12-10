@@ -16,20 +16,20 @@ namespace Motostore.GraphQL
 
             Field<AccountMutationsGroup>("account").Resolve(context => new { });
 
-            Field<UserType>(Name = "AddOrUpdateUser")
-                .Argument<NonNullGraphType<UserInputType>>("user")
-                .ResolveAsync(async context =>
-                {
-                    User userFromClient = context.GetArgument<User>("user");
-                    User user = await repository.Value.User.AddOrUpdate(userFromClient);
-                    _eventMessagesStack.AddEventMessage(new EventMessage
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Entity = user,
-                        SubscriptionName = "userChanged",
-                    });
-                    return user;
-                });
+            //Field<UserType>(Name = "AddOrUpdateUser")
+            //    .Argument<NonNullGraphType<UserInputType>>("user")
+            //    .ResolveAsync(async context =>
+            //    {
+            //        User userFromClient = context.GetArgument<User>("user");
+            //        User user = await repository.Value.User.AddOrUpdate(userFromClient);
+            //        _eventMessagesStack.AddEventMessage(new EventMessage
+            //        {
+            //            Id = Guid.NewGuid().ToString(),
+            //            Entity = user,
+            //            SubscriptionName = "userChanged",
+            //        });
+            //        return user;
+            //    });
         }
     }
 }

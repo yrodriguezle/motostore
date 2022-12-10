@@ -6,7 +6,7 @@ import { GET_CURRENT_USER } from '../queries';
 function useCallbackGetLoggedUser() {
   const client = useApolloClient();
   return useCallback(
-    async ({ fetchPolicy = 'network-only' }) => client.query({
+    async (fetchPolicy = 'network-only') => client.query({
       query: gql`${GET_CURRENT_USER}`,
       fetchPolicy,
     }),

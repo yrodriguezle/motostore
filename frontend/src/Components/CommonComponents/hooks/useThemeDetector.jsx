@@ -1,15 +1,19 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import receiveDarkThemeMode from '../../../Redux/actions/settings/receiveDarkThemeMode';
 
 function useThemeDetector() {
+  const effectRan = useRef(false);
   const dispatch = useDispatch();
   const isThemeDark = useSelector((state) => state.settings?.darkTheme);
 
   useEffect(() => {
-    const isSystemDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    dispatch(receiveDarkThemeMode(isSystemDarkTheme));
+    if (effectRan.current || process.env.NODE_ENV !== 'development') {
+      const isSystemDarkTheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      dispatch(receiveDarkThemeMode(isSystemDarkTheme));
+    }
+    return () => { effectRan.current = true; };
   }, [dispatch]);
 
   const handleChangeSystemTheme = useCallback(
