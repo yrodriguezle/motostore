@@ -25,10 +25,10 @@ namespace Motostore.GraphQL
                     
                     User? user = await repository.Value.User.GetByUsername(username);
 
-                    //passwordHasher.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
-                    //user.PasswordHash = passwordHash;
-                    //user.PasswordSalt = passwordSalt;
-                    //await repository.Value.User.AddOrUpdate(user);
+                    passwordHasher.CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+                    user.PasswordHash = passwordHash;
+                    user.PasswordSalt = passwordSalt;
+                    await repository.Value.User.AddOrUpdate(user);
 
                     if (user == null || !passwordHasher.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                     {

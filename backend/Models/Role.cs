@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Motostore.Models
+﻿namespace Motostore.Models
 {
     public partial class Role
     {
-        public Role()
-        {
-            Permissions = new HashSet<Permission>();
-            Users = new HashSet<User>();
-        }
-
         public ulong Id { get; set; }
         public string Name { get; set; } = null!;
         public string DisplayName { get; set; } = null!;
@@ -19,5 +10,11 @@ namespace Motostore.Models
 
         public virtual ICollection<Permission> Permissions { get; set; }
         public virtual ICollection<User> Users { get; set; }
+
+        public Role()
+        {
+            Permissions = new List<Permission>();
+            Users = new List<User>();
+        }
     }
 }

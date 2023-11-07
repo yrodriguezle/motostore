@@ -1,17 +1,14 @@
-﻿using Motostore.Helpers;
-using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+using Motostore.Helpers;
 
 namespace Motostore.Models
 {
     public class User : IEntity
     {
-        public User()
-        {
-            Keys = Guid.NewGuid().ToString();
-            Roles = new HashSet<Role>();
-        }
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public ulong Id { get; set; }
         public ulong? RoleId { get; set; }
         public string Name { get; set; } = null!;
@@ -28,6 +25,13 @@ namespace Motostore.Models
 
         public string Keys { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+        [ForeignKey("RoleId")]
+        public virtual Role Role { get; set; }
+
+        public User()
+        {
+            Keys = Guid.NewGuid().ToString();
+            Role = new Role();
+        }
     }
 }

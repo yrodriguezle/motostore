@@ -1,21 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Motostore.Models
 {
     public partial class Permission
     {
-        public Permission()
-        {
-            Roles = new HashSet<Role>();
-        }
 
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public ulong Id { get; set; }
-        public string Key { get; set; } = null!;
-        public string? TableName { get; set; }
+        public ulong? RoleId { get; set; }
+        public string? FunctionName { get; set; }
+        public bool? ReadDenied { get; set; }
+        public bool? InsertDenied { get; set; }
+        public bool? UpdateDenied { get; set; }
+        public bool? DeleteDenied { get; set; }
+        public bool? ExportDenied { get; set; }
+        public bool? SendMailDenied { get; set; }
+        public bool? PrintDenied { get; set; }
+        public bool? HideMenuItem { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+        public string Key { get; set; } = null!;
+
+        [ForeignKey("RoleId")]
+        public virtual Role Role { get; set; }
+
+        public Permission()
+        {
+            Role = new Role();
+        }
     }
 }
